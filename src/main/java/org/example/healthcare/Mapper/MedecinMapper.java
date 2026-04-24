@@ -15,5 +15,5 @@ public interface MedecinMapper {
 
     MedecinDto toDto(Medecin medecin);
 
-    List<MedecinDto> toDtos(@MappingTarget List<Medecin>medecins);
+    List<MedecinDto>toDtos(@MappingTarget List<Medecin>medecins);
 }
