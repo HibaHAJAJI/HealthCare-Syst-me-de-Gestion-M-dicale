@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel= "string")
+@Mapper(componentModel= "spring")
 public interface PatientMapper {
 
   Patient toEntity(PatientDto dto);

@@ -1,13 +1,16 @@
 package org.example.healthcare.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.healthcare.Enum.Statut;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +23,16 @@ public class RendezVous {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dateRendezVous;
-    private String statut;
+    private Statut statut;
+
+    @ManyToOne
+    @JoinColumn(name="patient_id")
+    @JsonIgnore
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "medecin_id")
+    @JsonIgnore
+    private Medecin medecin;
 
 }

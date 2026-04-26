@@ -13,7 +13,7 @@ public class PatientDto {
     private String nom;
     private String prenom;
     private String email;
-    private Long telephone;
+    private String telephone;
     private LocalDate dateNaissance;
 
 }

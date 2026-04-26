@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "string")
+@Mapper(componentModel = "spring")
 public interface DossierMedicalMapper {
     DossierMedical toEntity(DossierMedicalDto dto);
 

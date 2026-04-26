@@ -2,6 +2,7 @@ package org.example.healthcare.Dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.healthcare.Enum.Statut;
 
 import java.time.LocalDate;
 
@@ -10,6 +11,6 @@ import java.time.LocalDate;
 public class RendezVousDto {
     private Long id;
     private LocalDate dateRendezVous;
-    private String statut;
+    private Statut statut;
 
 }

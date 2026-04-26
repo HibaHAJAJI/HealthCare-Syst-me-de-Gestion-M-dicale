@@ -8,12 +8,12 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel= "string")
+@Mapper(componentModel= "spring")
 public interface MedecinMapper {
 
     Medecin toEntity(MedecinDto dto);
 
     MedecinDto toDto(Medecin medecin);
 
-    List<MedecinDto>toDtos(@MappingTarget List<Medecin>medecins);
+    List<MedecinDto>toDtos(List<Medecin>medecins);
 }

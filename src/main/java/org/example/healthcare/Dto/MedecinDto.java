@@ -11,5 +11,5 @@ public class MedecinDto {
     private String nom;
     private String specialite;
     private String email;
-    private Long telephone;
+    private String telephone;
 }
