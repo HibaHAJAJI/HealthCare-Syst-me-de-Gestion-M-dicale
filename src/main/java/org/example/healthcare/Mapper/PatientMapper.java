@@ -4,6 +4,7 @@ package org.example.healthcare.Mapper;
 import org.example.healthcare.Dto.PatientDto;
 import org.example.healthcare.Entity.Patient;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface PatientMapper {
 
   List<PatientDto>toDtos(List<Patient>patients);
 
+
+  @Mapping(target = "id",ignore = true)
   void updatePatientDto(PatientDto dto,@MappingTarget Patient patient);
 
 }

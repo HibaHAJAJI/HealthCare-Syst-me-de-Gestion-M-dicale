@@ -23,8 +23,27 @@ public class PatientService {
         Patient patient = mapper.toEntity(dto);
         return mapper.toDto(repository.save(patient));
     }
-    public List<PatientDto> getAllPatient(){
+    public List<PatientDto> getAllPatients(){
       return mapper.toDtos(repository.findAll());
     }
 
+    public void deletePatient(Long id){
+        Patient patient = repository.findById(id)
+                .orElseThrow(()->new  RuntimeException ("Patient introvable !"));
+             repository.delete(patient);
+    }
+
+    public PatientDto updatePatient(Long id, PatientDto dto){
+        Patient patient=repository.findById(id)
+                .orElseThrow(()->new RuntimeException("Patient introvable !"));
+        mapper.updatePatientDto(dto,patient);
+        return mapper.toDto(repository.save(patient));
+    }
+
+
+   public PatientDto getPatientById(Long id){
+        Patient patient=repository.findById(id)
+                .orElseThrow(()->new RuntimeException("Patient introvable !"));
+        return mapper.toDto(patient);
+   }
 }

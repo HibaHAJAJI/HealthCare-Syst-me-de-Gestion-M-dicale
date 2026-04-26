@@ -21,7 +21,20 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<PatientDto> findAllPatient(){
-        return patientService.getAllPatient();
+    public List<PatientDto> findAllPatients(){
+        return patientService.getAllPatients();
     }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+        patientService.deletePatient(id);
+    }
+    @PutMapping("update/{id}")
+    public PatientDto update(@PathVariable Long id, @RequestBody PatientDto dto){
+        return patientService.updatePatient(id, dto);
+    }
+    @GetMapping("/{id}")
+    public PatientDto findPatientById(@PathVariable Long id){
+        return patientService.getPatientById(id);
+    }
+
 }
