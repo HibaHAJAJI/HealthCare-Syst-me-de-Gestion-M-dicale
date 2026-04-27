@@ -18,7 +18,7 @@ CREATE TABLE medecin(
 
 CREATE TABLE rendez_vous(
                     id bigint auto_increment primary key,
-                    date_rendez_vous date not null ,
+                    date_rendez_vous DATETIME not null ,
                     statut enum('EN_ATTENTE','CONFIRME','ANNULE') not null
 );
 

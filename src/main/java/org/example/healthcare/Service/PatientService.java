@@ -29,21 +29,20 @@ public class PatientService {
 
     public void deletePatient(Long id){
         Patient patient = repository.findById(id)
-                .orElseThrow(()->new  RuntimeException ("Patient introvable !"));
+                .orElseThrow(()->new  RuntimeException ("Patient introuvable !"));
              repository.delete(patient);
     }
 
     public PatientDto updatePatient(Long id, PatientDto dto){
         Patient patient=repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Patient introvable !"));
+                .orElseThrow(()->new RuntimeException("Patient introuvable !"));
         mapper.updatePatientDto(dto,patient);
         return mapper.toDto(repository.save(patient));
     }
-
-
+    
    public PatientDto getPatientById(Long id){
         Patient patient=repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Patient introvable !"));
+                .orElseThrow(()->new RuntimeException("Patient introuvable !"));
         return mapper.toDto(patient);
    }
 }

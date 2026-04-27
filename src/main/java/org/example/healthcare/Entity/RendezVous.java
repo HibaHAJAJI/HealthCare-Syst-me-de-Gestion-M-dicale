@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.healthcare.Enum.Statut;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +18,11 @@ import java.util.List;
 @Entity
 @Table(name = "rendez_vous")
 public class RendezVous {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate dateRendezVous;
+    private LocalDateTime dateRendezVous;
     private Statut statut;
 
     @ManyToOne

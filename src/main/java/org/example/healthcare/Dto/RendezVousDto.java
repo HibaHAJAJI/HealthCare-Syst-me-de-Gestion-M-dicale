@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.healthcare.Enum.Statut;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class RendezVousDto {
     private Long id;
-    private LocalDate dateRendezVous;
+    private LocalDateTime dateRendezVous;
     private Statut statut;
 
+    private Long medecinId;
+    private Long patientId ;
 }

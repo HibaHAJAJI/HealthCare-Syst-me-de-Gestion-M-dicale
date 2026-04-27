@@ -27,7 +27,7 @@ public class MedecinService {
 
     public void DeleteMedecinById(Long id){
         Medecin medecin=repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Medecin introvable !"));
+                .orElseThrow(()->new RuntimeException("Aucun medecin !"));
         repository.delete(medecin);
     }
     public List<MedecinDto> getAllMedecins(){
@@ -36,7 +36,7 @@ public class MedecinService {
 
     public MedecinDto updateMedecinById(Long id,MedecinDto dto){
         Medecin medecin=repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Medecin introvable !"));
+                .orElseThrow(()->new RuntimeException("Aucun medecin  !"));
         mapper.updateMedecinDto(dto,medecin);
         return mapper.toDto(repository.save(medecin));
     }
