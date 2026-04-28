@@ -66,6 +66,6 @@ public class RendezVousService {
     }
 
     public List<RendezVousDto> getRendezVousByMedecinById(Long id){
-        return rendezVousMapper.toDtos(rendezVousRepository.findByPatientId(id));
+        return rendezVousMapper.toDtos(rendezVousRepository.findByMedecinId(id));
     }
 }
