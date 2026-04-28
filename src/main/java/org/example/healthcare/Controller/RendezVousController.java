@@ -31,4 +31,18 @@ public class RendezVousController {
         return rendezVousService.updateRendezVous(id,dto) ;
     }
 
+    @PatchMapping("/{id}")
+    public RendezVousDto annulerRendezVousById(@PathVariable Long id){
+        return rendezVousService.annulerRendezVous(id);
+    }
+
+    @GetMapping("/patient/{id}")
+    public List<RendezVousDto> getRendezVousPatient(@PathVariable Long id){
+        return rendezVousService.getRendezVousByPatientById(id);
+    }
+
+    @GetMapping("/medecin/{id}")
+    public List<RendezVousDto>getRendezVousMedecin(@PathVariable Long id){
+        return rendezVousService.getRendezVousByMedecinById(id);
+    }
 }

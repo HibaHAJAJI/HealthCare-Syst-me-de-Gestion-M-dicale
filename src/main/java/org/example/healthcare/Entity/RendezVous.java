@@ -22,7 +22,10 @@ public class RendezVous {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime dateRendezVous;
+
+    @Enumerated(EnumType.STRING)
     private Statut statut;
 
     @ManyToOne

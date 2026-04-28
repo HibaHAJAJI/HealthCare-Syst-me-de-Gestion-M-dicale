@@ -21,4 +21,8 @@ public class DossierMedical {
     private String diagnostic;
     private String observation;
     private LocalDate dateCreation;
+
+    @OneToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }

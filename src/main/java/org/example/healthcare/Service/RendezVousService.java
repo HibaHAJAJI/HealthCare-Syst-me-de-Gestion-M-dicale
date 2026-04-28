@@ -60,4 +60,12 @@ public class RendezVousService {
         rendezVous.setStatut(Statut.ANNULE);
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
+
+    public List<RendezVousDto> getRendezVousByPatientById(Long id){
+        return  rendezVousMapper.toDtos(rendezVousRepository.findByPatientId(id));
+    }
+
+    public List<RendezVousDto> getRendezVousByMedecinById(Long id){
+        return rendezVousMapper.toDtos(rendezVousRepository.findByPatientId(id));
+    }
 }

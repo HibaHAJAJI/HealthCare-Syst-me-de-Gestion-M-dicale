@@ -24,8 +24,8 @@ CREATE TABLE rendez_vous(
 
 CREATE TABLE dossier_medical(
                     id bigint auto_increment primary key,
-                    diagnostic varchar(80)NOT NULL ,
-                    observation varchar(80) not null ,
+                    diagnostic varchar(255)NOT NULL ,
+                    observation varchar(255) not null ,
                     date_creation date not null
 );
 
