@@ -50,6 +50,17 @@ public class RendezVousService {
    public RendezVousDto updateRendezVous(Long id,RendezVousDto dto){
         RendezVous rendezVous = rendezVousRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Rendez-vous introuvable"));
+
+        if(dto.getMedecinId()!=null){
+          Medecin medecin=medecinRepository.findById(dto.getPatientId())
+                  .orElseThrow(()->new RuntimeException("aucun medecin !"));
+           medecinRepository.save(medecin);
+        }
+        if (dto.getPatientId()!=null){
+      Patient patient = patientRepository.findById(dto.getPatientId())
+              .orElseThrow(()->new RuntimeException("aucun patient"));
+          patientRepository.save(patient);
+        }
         rendezVousMapper.updateRendezVous(dto,rendezVous);
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }

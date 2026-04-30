@@ -14,7 +14,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class medecinTest {
 
     @Autowired
@@ -83,21 +82,21 @@ public class medecinTest {
     void should_getAll_medecin(){
         Medecin medecin = new Medecin();
 
-        medecin.setNom("yasmine");
+        medecin.setNom("karima");
         medecin.setEmail("dr@email.com");
         medecin.setSpecialite("cardoligie");
         medecin.setTelephone("0987654");
-
+        repository.save(medecin);
         Medecin medecin1 = new Medecin();
 
-        medecin1.setNom("zineb");
-        medecin1.setEmail("sr@email.com");
+        medecin1.setNom("noura");
+        medecin1.setEmail("nr@email.com");
         medecin1.setSpecialite("neurlogie");
         medecin1.setTelephone("04567875");
-        repository.save(medecin);
+        repository.save(medecin1);
         List<MedecinDto> result = service.getAllMedecins();
 
         assertNotNull(result);
-        assertEquals(2,result.size());
+        assertEquals(3,result.size());
     }
 }

@@ -1,7 +1,6 @@
 package org.example.healthcare.servicesTest;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Entity.Patient;
@@ -21,7 +20,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@Transactional
 public class RendezVousTest {
 
     @Autowired
