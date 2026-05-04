@@ -1,5 +1,6 @@
 package org.example.healthcare.Service;
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.PatientDto;
 import org.example.healthcare.Entity.Patient;
 import org.example.healthcare.Mapper.PatientMapper;
@@ -9,15 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PatientService {
 
     private final PatientRepository repository;
     private final PatientMapper mapper;
 
-    public PatientService(PatientRepository repository, PatientMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
 
     public PatientDto addPatient(PatientDto dto){
         Patient patient = mapper.toEntity(dto);

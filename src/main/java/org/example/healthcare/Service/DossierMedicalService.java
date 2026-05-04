@@ -1,5 +1,6 @@
 package org.example.healthcare.Service;
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.DossierMedicalDto;
 import org.example.healthcare.Entity.DossierMedical;
 import org.example.healthcare.Entity.Patient;
@@ -11,17 +12,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
+@AllArgsConstructor
 public class DossierMedicalService {
 
     private final DossierMedicalRepository repository;
     private final DossierMedicalMapper mapper;
     private final PatientRepository patientRepository;
-
-    public DossierMedicalService(DossierMedicalRepository repository, DossierMedicalMapper mapper, PatientRepository patientRepository) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.patientRepository = patientRepository;
-    }
 
 
     public DossierMedicalDto addDossierMedical(DossierMedicalDto dto){

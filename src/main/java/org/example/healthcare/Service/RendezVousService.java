@@ -1,6 +1,7 @@
 package org.example.healthcare.Service;
 
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Entity.Patient;
@@ -15,19 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class RendezVousService {
 
     private final RendezVousMapper rendezVousMapper;
     private final RendezVousRepository rendezVousRepository;
     private final MedecinRepository medecinRepository;
     private final PatientRepository patientRepository;
-
-    public RendezVousService(RendezVousMapper rendezVousMapper, RendezVousRepository rendezVousRepository, MedecinRepository medecinRepository, PatientRepository patientRepository) {
-        this.rendezVousMapper = rendezVousMapper;
-        this.rendezVousRepository = rendezVousRepository;
-        this.medecinRepository = medecinRepository;
-        this.patientRepository = patientRepository;
-    }
 
 
     public RendezVousDto addRendezVous(RendezVousDto dto){

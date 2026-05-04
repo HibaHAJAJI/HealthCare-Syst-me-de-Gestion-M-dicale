@@ -1,20 +1,18 @@
 package org.example.healthcare.Controller;
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Service.RendezVousService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/rendez-vous")
 public class RendezVousController {
 
     private final RendezVousService rendezVousService;
-
-    public RendezVousController(RendezVousService rendezVousService) {
-        this.rendezVousService = rendezVousService;
-    }
 
     @GetMapping
     public List<RendezVousDto> findAllRendezVous(){

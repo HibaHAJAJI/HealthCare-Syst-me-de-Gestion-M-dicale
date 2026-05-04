@@ -1,19 +1,16 @@
 package org.example.healthcare.Controller;
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.DossierMedicalDto;
 import org.example.healthcare.Service.DossierMedicalService;
 import org.springframework.web.bind.annotation.*;
 
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/dossier-medicaux")
 public class DossierMedicalController {
 
     private final DossierMedicalService service;
-
-    public DossierMedicalController(DossierMedicalService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     public DossierMedicalDto findDossierMedicalById(@PathVariable Long id){

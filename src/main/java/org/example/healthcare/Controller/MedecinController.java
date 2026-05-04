@@ -1,20 +1,19 @@
 package org.example.healthcare.Controller;
 
+import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.MedecinDto;
 import org.example.healthcare.Service.MedecinService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/medecins")
 public class MedecinController {
 
     private final MedecinService medecinService;
 
-    public MedecinController(MedecinService medecinService) {
-        this.medecinService = medecinService;
-    }
 
     @GetMapping
     public List<MedecinDto> findAllMedecins(){
