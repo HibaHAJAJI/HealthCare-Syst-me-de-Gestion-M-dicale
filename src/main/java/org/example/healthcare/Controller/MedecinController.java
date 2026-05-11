@@ -1,5 +1,6 @@
 package org.example.healthcare.Controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.MedecinDto;
 import org.example.healthcare.Service.MedecinService;
@@ -21,12 +22,12 @@ public class MedecinController {
     }
 
     @PostMapping
-    public MedecinDto saveMedecin(@RequestBody MedecinDto dto){
+    public MedecinDto saveMedecin(@Valid @RequestBody MedecinDto dto){
         return medecinService.saveMedecin(dto);
     }
 
     @PutMapping("/{id}")
-    public MedecinDto updateMedecin(@PathVariable Long id,@RequestBody MedecinDto dto){
+    public MedecinDto updateMedecin(@PathVariable Long id,@Valid @RequestBody MedecinDto dto){
         return medecinService.updateMedecinById(id,dto);
     }
     @DeleteMapping("/{id}")

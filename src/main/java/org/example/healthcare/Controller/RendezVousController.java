@@ -25,7 +25,7 @@ public class RendezVousController {
     }
 
     @PutMapping("/update/{id}")
-    public RendezVousDto update(@PathVariable Long id,@RequestBody RendezVousDto dto){
+    public  RendezVousDto update(@PathVariable Long id,@RequestBody RendezVousDto dto){
         return rendezVousService.updateRendezVous(id,dto) ;
     }
 
