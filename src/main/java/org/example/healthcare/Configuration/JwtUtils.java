@@ -1,6 +1,7 @@
 package org.example.healthcare.Configuration;
 
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import java.util.Map;
 @Component
 public class JwtUtils {
 
-    @Value("${app.secret-key}")
+ /*   @Value("${app.secret-key}")
     private String secretKey;
 
     @Value("${app.expiration-time}")
@@ -42,5 +43,14 @@ public class JwtUtils {
         byte[] keyBytes = secretKey.getBytes();
         return new SecretKeySpec(keyBytes,SignatureAlgorithm.HS256.getJcaName());
     }
-    public Boolean validateToken(String token,Us)
+    public Boolean validateToken(String token,Us){
+
+    }
+    public String extractUsername(String token){
+        return extactClaim(token, Claims::getExpiration)
+    }
+
+    private String extactClaim(String token, Object getExpiration) {
+    }*/
+
 }
