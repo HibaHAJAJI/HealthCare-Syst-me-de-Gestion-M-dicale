@@ -3,28 +3,33 @@ package org.example.healthcare.Configuration;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.Signature;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.security.Key;
 
-@Component
+
+@Service
 public class JwtUtils {
 
- /*   @Value("${app.secret-key}")
-    private String secretKey;
+    private final static String secret_Key="0946c56071679ffd8a3e403e43e0d97ead315d26aa831d8e";
 
-    @Value("${app.expiration-time}")
     private long expirationTime;
 
-    public String generateToken(String username){
+
+    public String extractUsername(String token){
+        return null;
+    }
+
+    private Claims extractAllClaims(String token){
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+
+    }
+
+    private Key getSignInKey() {
+        return null;
+    }
+
+  /*  public String generateToken(String username){
         Map<String,Object> claims = new HashMap<>();
         return creatToken(claims,username);
     }
