@@ -1,8 +1,11 @@
 package org.example.healthcare.Controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.PatientDto;
 import org.example.healthcare.Service.PatientService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +18,8 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping
-    public PatientDto savePatient(@RequestBody PatientDto dto){
-        return patientService.addPatient(dto);
+    public ResponseEntity<PatientDto>  savePatient(@Valid @RequestBody PatientDto dto){
+        return new ResponseEntity<>( patientService.addPatient(dto), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -30,8 +33,8 @@ public class PatientController {
     }
 
     @PutMapping("update/{id}")
-    public PatientDto update(@PathVariable Long id, @RequestBody PatientDto dto){
-        return patientService.updatePatient(id, dto);
+    public ResponseEntity<PatientDto>  update(@PathVariable Long id,@Valid @RequestBody PatientDto dto){
+        return new ResponseEntity<>(patientService.updatePatient(id, dto),HttpStatus.CREATED) ;
     }
 
     @GetMapping("/{id}")
