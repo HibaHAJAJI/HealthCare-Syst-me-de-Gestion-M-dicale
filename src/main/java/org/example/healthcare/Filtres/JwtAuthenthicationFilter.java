@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Configuration.JwtService;
-import org.example.healthcare.Entity.User;
-import org.example.healthcare.Service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,15 +31,21 @@ public class JwtAuthenthicationFilter extends OncePerRequestFilter {
 
         final  String authHeader = request.getHeader("Authorization");
         final  String jwt;
-        final String userEmail;
-        if(authHeader == null || authHeader.startsWith("Bearer ")){
+        final String username;
+
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request,response);
+            return;
         }
+
         jwt=authHeader.substring(7);
-        userEmail=jwtService.extractUsername(jwt);
-        if(userEmail !=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails= this.userDetailsService.loadUserByUsername(userEmail);
-            if(jwtService.istkonValid(jwt,userDetails)){
+        username =jwtService.extractUsername(jwt);
+
+        if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
+            UserDetails userDetails= this.userDetailsService.loadUserByUsername(username);
+
+            if(jwtService.isTokenValid(jwt,userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                                                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                                                     SecurityContextHolder.getContext().setAuthentication(authToken);
