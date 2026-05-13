@@ -33,7 +33,14 @@ public class AuthService {
         }
         User user =userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        return userMapper.toDto(userRepository.save(user));
+        User saved =userRepository.save(user);
+
+        String token = jwtService.generateToken(saved);
+
+        UserDto response = userMapper.toDto(saved);
+        response.setToken(token);
+
+        return response;
     }
 
     public AuthResponse login(LoginRequest dto){

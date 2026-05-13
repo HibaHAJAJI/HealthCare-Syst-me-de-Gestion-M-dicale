@@ -20,5 +20,7 @@ public class UserDto {
     @Size(min= 6, message = "Le passwoed doit contenir minimum 6 caractere ")
     private String password;
 
+    private String token;
+
 
 }
