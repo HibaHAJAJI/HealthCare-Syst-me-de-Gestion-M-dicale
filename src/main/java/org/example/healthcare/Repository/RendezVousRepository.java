@@ -14,4 +14,6 @@ public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
 
     @Query(value = "select *from rendez_vous rv where medecin_id =:id ",nativeQuery = true)
     List<RendezVous>findByMedecinId(@Param("id")Long id);
-}
+
+
+    }

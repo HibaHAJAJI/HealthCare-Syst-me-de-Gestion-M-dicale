@@ -2,6 +2,7 @@ package org.example.healthcare.Service;
 
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.MedecinDto;
+import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Mapper.MedecinMapper;
 import org.example.healthcare.Repository.MedecinRepository;
