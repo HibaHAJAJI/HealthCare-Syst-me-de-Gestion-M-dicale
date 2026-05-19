@@ -1,6 +1,7 @@
 package org.example.healthcare.Configuration;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Filtres.JwtAuthenthicationFilter;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,19 @@ public class SecurityConfig {
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/login","/api/auth/register").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/medecins/**").hasRole("MEDECIN")
+                        .requestMatchers("/api/patients/**").hasRole("PATIENT")
                 .anyRequest().authenticated())
+                .exceptionHandling(ex ->
+                        ex.authenticationEntryPoint(
+                                (request, response, authException) -> {
+                                    response.sendError(
+                                            HttpServletResponse.SC_UNAUTHORIZED,
+                                            authException.getMessage());
+                                }
+                        )
+                )
                 .addFilterBefore(jwtAuthenthicationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

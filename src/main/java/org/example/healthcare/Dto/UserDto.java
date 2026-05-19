@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.healthcare.Enum.Role;
 
 
 @Data
@@ -19,6 +20,8 @@ public class UserDto {
 
     @Size(min= 6, message = "Le passwoed doit contenir minimum 6 caractere ")
     private String password;
+
+    private Role role;
 
     private String token;
 

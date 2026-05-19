@@ -7,6 +7,7 @@ import org.example.healthcare.Dto.AuthResponse;
 import org.example.healthcare.Dto.LoginRequest;
 import org.example.healthcare.Dto.UserDto;
 import org.example.healthcare.Entity.User;
+import org.example.healthcare.Enum.Role;
 import org.example.healthcare.Mapper.UserMapper;
 import org.example.healthcare.Repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,7 @@ public class AuthService {
         }
         User user =userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(Role.PATIENT);
         User saved =userRepository.save(user);
 
         String token = jwtService.generateToken(saved);
@@ -46,12 +48,12 @@ public class AuthService {
     public AuthResponse login(LoginRequest dto){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        dto.getUsername(),
+                        dto.getEmail(),
                         dto.getPassword()
                 )
         );
 
-        User user = userRepository.findByUsername(dto.getUsername())
+        User user = userRepository.findByUsername(dto.getEmail())
                 .orElseThrow(()->new RuntimeException("User not found"));
 
         String token = jwtService.generateToken(user);

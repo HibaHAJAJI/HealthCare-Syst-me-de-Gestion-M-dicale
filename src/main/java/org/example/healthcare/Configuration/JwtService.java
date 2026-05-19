@@ -22,7 +22,13 @@ public class JwtService {
 
 
     public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(),userDetails);
+        Map<String,Object> claims =new HashMap<>();
+        claims.put("role",userDetails.getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority());
+        return generateToken(claims,userDetails);
     }
 
     public String generateToken(Map<String,Object>extraClaims,
@@ -32,8 +38,8 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*24))
-                .signWith(SignatureAlgorithm.HS256, getSignInKey())
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
+                .signWith(getSignInKey(),SignatureAlgorithm.HS256)
                 .compact();
 
     }
