@@ -28,7 +28,6 @@ public class RegistreLoginController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody LoginRequest login){
-
             return ResponseEntity.ok(authService.login(login));
     }
 

@@ -3,7 +3,7 @@ package org.example.healthcare.Configuration;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.healthcare.Filtres.JwtAuthenthicationFilter;
+import org.example.healthcare.Filtres.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenthicationFilter jwtAuthenthicationFilter;
+    private final JwtAuthenticationFilter jwtAuthenthicationFilter;
 
     @Bean
    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {

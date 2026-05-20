@@ -52,16 +52,14 @@ public class AuthService {
     public AuthResponse login(LoginRequest dto){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        dto.getEmail(),
+                        dto.getUsername(),
                         dto.getPassword()
                 )
         );
 
-        User user = userRepository.findByEmail(dto.getEmail())
+        User user = userRepository.findByUsername(dto.getUsername())
                 .orElseThrow(()->new RuntimeException("User not found"));
-
         String token = jwtService.generateToken(user);
-
         return new AuthResponse(token);
 
     }
