@@ -17,6 +17,7 @@ public class UserDto {
     @Email(message = "Le format email est incorrect")
     private String email;
 
+    @NotBlank(message = "Le champ password et invalide")
     @Size(min= 6, message = "Le passwoed doit contenir minimum 6 caractere ")
     private String password;
 

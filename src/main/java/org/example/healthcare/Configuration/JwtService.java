@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final static String secret_Key="0946c56071679ffd8a3e403e43e0d97ead315d26aa831d8e";
+    private final static String secret_Key="0946c56071679ffd8a3e403e43e0d97ead315d26aa831d8e0946c56071679ffd8a3e403e43e0d97e";
 
 
     public String generateToken(UserDetails userDetails){
