@@ -34,12 +34,16 @@ public class AuthService {
         }
         User user =userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(Role.PATIENT);
-        User saved =userRepository.save(user);
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        } else {
+            user.setRole(Role.PATIENT);
+        }        User saved =userRepository.save(user);
 
         String token = jwtService.generateToken(saved);
 
         UserDto response = userMapper.toDto(saved);
+        response.setRole(saved.getRole());
         response.setToken(token);
 
         return response;
@@ -53,7 +57,7 @@ public class AuthService {
                 )
         );
 
-        User user = userRepository.findByUsername(dto.getEmail())
+        User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(()->new RuntimeException("User not found"));
 
         String token = jwtService.generateToken(user);
