@@ -6,6 +6,8 @@ import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Mapper.MedecinMapper;
 import org.example.healthcare.Repository.MedecinRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +30,8 @@ public class MedecinService {
                 .orElseThrow(()->new RuntimeException("Aucun medecin !"));
         repository.delete(medecin);
     }
-    public List<MedecinDto> getAllMedecins(){
-      return mapper.toDtos(repository.findAll());
+    public Page<MedecinDto> getAllMedecins(Pageable pageable){
+      return repository.findAll(pageable).map(mapper::toDto);
     }
 
     public MedecinDto updateMedecinById(Long id,MedecinDto dto){
@@ -37,5 +39,10 @@ public class MedecinService {
                 .orElseThrow(()->new RuntimeException("Aucun medecin  !"));
         mapper.updateMedecinDto(dto,medecin);
         return mapper.toDto(repository.save(medecin));
+    }
+
+    public Page<MedecinDto>getMedecinBySpecialite(String specialite, Pageable pageable){
+        Page<Medecin>medecins=repository.findBySpecialite(specialite, pageable);
+        return medecins.map(mapper::toDto);
     }
 }

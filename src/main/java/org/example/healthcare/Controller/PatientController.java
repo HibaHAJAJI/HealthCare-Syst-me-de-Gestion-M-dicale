@@ -53,6 +53,7 @@ public class PatientController {
         return patientService.getPatientById(id);
     }
 
+
     @GetMapping("/triParNom")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<PatientDto>> getRendezVousParNom(String nom,Pageable pageable){
