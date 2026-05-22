@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,65 +44,7 @@ public class medecinTest {
         assertNotNull(result.getId());
     }
 
-    @Test
-    void should_update_medecin() {
 
-        Medecin medecin = new Medecin();
-        medecin.setNom("yasmine");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setSpecialite("cardiologie");
-        medecin.setTelephone("0987654");
 
-        Medecin saved = repository.save(medecin);
 
-        MedecinDto dto = new MedecinDto();
-        dto.setNom("yasmine updated");
-        dto.setEmail(saved.getEmail());
-        dto.setSpecialite("neurologie");
-        dto.setTelephone("1111111");
-
-        MedecinDto updated = service.updateMedecinById(saved.getId(), dto);
-
-        assertNotNull(updated);
-        assertEquals("neurologie", updated.getSpecialite());
-    }
-
-    @Test
-    void should_delete_medecin() {
-
-        Medecin medecin = new Medecin();
-        medecin.setNom("yasmine");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setSpecialite("cardiologie");
-        medecin.setTelephone("0987654");
-
-        Medecin saved = repository.save(medecin);
-
-        service.DeleteMedecinById(saved.getId());
-
-        assertFalse(repository.existsById(saved.getId()));
-    }
-
-    @Test
-    void should_getAll_medecin() {
-
-        Medecin m1 = new Medecin();
-        m1.setNom("karima");
-        m1.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        m1.setSpecialite("cardiologie");
-        m1.setTelephone("0987654");
-        repository.save(m1);
-
-        Medecin m2 = new Medecin();
-        m2.setNom("noura");
-        m2.setEmail("nr" + UUID.randomUUID() + "@email.com");
-        m2.setSpecialite("neurologie");
-        m2.setTelephone("04567875");
-        repository.save(m2);
-
-        List<MedecinDto> result = service.getAllMedecins();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-    }
 }

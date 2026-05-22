@@ -1,0 +1,1 @@
+alter table users add column role enum('ADMIN','MEDECIN','PATIENT') not null default 'PATIENT';

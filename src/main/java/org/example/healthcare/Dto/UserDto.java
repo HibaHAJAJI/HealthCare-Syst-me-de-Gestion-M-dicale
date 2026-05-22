@@ -4,21 +4,24 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.healthcare.Enum.Role;
 
 
 @Data
 public class UserDto {
 
     private Long id;
-    @NotBlank(message = "Le champ username et invalide")
+    @NotBlank(message = "Le champ username est invalide")
     private String username;
 
-    @NotBlank(message = "Le champ email et invalide")
+    @NotBlank(message = "Le champ email est invalide")
     @Email(message = "Le format email est incorrect")
     private String email;
 
-    @Size(min= 6, message = "Le passwoed doit contenir minimum 6 caractere ")
+    @Size(min= 6, message = "Le password doit contenir minimum 6 caractere ")
     private String password;
+
+    private Role role;
 
     private String token;
 

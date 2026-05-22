@@ -11,9 +11,10 @@ import org.example.healthcare.Mapper.RendezVousMapper;
 import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -38,8 +39,8 @@ public class RendezVousService {
        return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
 
-    public List<RendezVousDto> getAllRendezVous(){
-        return rendezVousMapper.toDtos(rendezVousRepository.findAll());
+    public Page<RendezVousDto> getAllRendezVous(Pageable pageable){
+        return rendezVousRepository.findAll(pageable).map(rendezVousMapper::toDto);
     }
 
    public RendezVousDto updateRendezVous(Long id,RendezVousDto dto){
@@ -67,11 +68,11 @@ public class RendezVousService {
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
 
-    public List<RendezVousDto> getRendezVousByPatientById(Long id){
-        return  rendezVousMapper.toDtos(rendezVousRepository.findByPatientId(id));
+    public Page<RendezVousDto> getRendezVousByPatientById(Long id, Pageable pageable){
+        return  rendezVousRepository.findByPatientId(id,pageable).map(rendezVousMapper::toDto);
     }
 
-    public List<RendezVousDto> getRendezVousByMedecinById(Long id){
-        return rendezVousMapper.toDtos(rendezVousRepository.findByMedecinId(id));
+    public Page<RendezVousDto> getRendezVousByMedecinById(Long medecintId,Pageable pageable){
+        return rendezVousRepository.findByMedecinId(medecintId,pageable).map(rendezVousMapper::toDto);
     }
 }

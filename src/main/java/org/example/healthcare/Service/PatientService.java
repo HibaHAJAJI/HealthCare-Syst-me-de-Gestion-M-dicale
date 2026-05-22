@@ -5,6 +5,8 @@ import org.example.healthcare.Dto.PatientDto;
 import org.example.healthcare.Entity.Patient;
 import org.example.healthcare.Mapper.PatientMapper;
 import org.example.healthcare.Repository.PatientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +17,16 @@ public class PatientService {
 
     private final PatientRepository repository;
     private final PatientMapper mapper;
+    private final PatientMapper patientMapper;
 
 
     public PatientDto addPatient(PatientDto dto){
         Patient patient = mapper.toEntity(dto);
         return mapper.toDto(repository.save(patient));
     }
-    public List<PatientDto> getAllPatients(){
-      return mapper.toDtos(repository.findAll());
+    public Page<PatientDto> getAllPatients(Pageable pageable){
+      Page<Patient>patients=repository.findAll(pageable);
+        return patients.map(mapper::toDto);
     }
 
     public void deletePatient(Long id){
@@ -42,5 +46,10 @@ public class PatientService {
         Patient patient=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("Patient introuvable !"));
         return mapper.toDto(patient);
+   }
+
+   public Page<PatientDto>chercherPatients(String nom, Pageable pageable){
+        Page<Patient> patients =repository.findByNomContainsIgnoreCase(nom,pageable);
+        return patients.map(patientMapper::toDto);
    }
 }

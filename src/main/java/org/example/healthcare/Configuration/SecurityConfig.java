@@ -1,12 +1,14 @@
 package org.example.healthcare.Configuration;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.healthcare.Filtres.JwtAuthenthicationFilter;
+import org.example.healthcare.Filtres.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,9 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenthicationFilter jwtAuthenthicationFilter;
+    private final JwtAuthenticationFilter jwtAuthenthicationFilter;
 
     @Bean
    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -29,6 +32,15 @@ public class SecurityConfig {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/login","/api/auth/register").permitAll()
                 .anyRequest().authenticated())
+                .exceptionHandling(ex ->
+                        ex.authenticationEntryPoint(
+                                (request, response, authException) -> {
+                                    response.sendError(
+                                            HttpServletResponse.SC_UNAUTHORIZED,
+                                            authException.getMessage());
+                                }
+                        )
+                )
                 .addFilterBefore(jwtAuthenthicationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
