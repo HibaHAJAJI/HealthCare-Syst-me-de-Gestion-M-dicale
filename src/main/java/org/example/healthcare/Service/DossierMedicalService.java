@@ -7,9 +7,12 @@ import org.example.healthcare.Entity.Patient;
 import org.example.healthcare.Mapper.DossierMedicalMapper;
 import org.example.healthcare.Repository.DossierMedicalRepository;
 import org.example.healthcare.Repository.PatientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -51,5 +54,9 @@ public class DossierMedicalService {
         DossierMedical dossierMedical=repository.findById(id)
                 .orElseThrow();
         return mapper.toDto(repository.save(dossierMedical));
+    }
+
+    public Page<DossierMedicalDto> getAllDossierMedicaux(Pageable pageable){
+        return repository.findAll(pageable).map(mapper::toDto);
     }
 }

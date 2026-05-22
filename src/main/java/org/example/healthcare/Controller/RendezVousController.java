@@ -17,7 +17,7 @@ public class RendezVousController {
     private final RendezVousService rendezVousService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public Page<RendezVousDto> findAllRendezVous(Pageable pageable){
         return rendezVousService.getAllRendezVous(pageable);
     }
@@ -41,13 +41,13 @@ public class RendezVousController {
     }
 
    @GetMapping("/patient/{id}")
-   @PreAuthorize("hasRole('ADMIN')")
+   @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
    public Page<RendezVousDto> getRendezVousPatient(@PathVariable Long id,Pageable pageable){
         return rendezVousService.getRendezVousByPatientById(id,pageable);
     }
 
     @GetMapping("/medecin/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public Page<RendezVousDto>getRendezVousMedecin(@PathVariable Long id,Pageable pageable){
         return rendezVousService.getRendezVousByMedecinById(id,pageable);
     }

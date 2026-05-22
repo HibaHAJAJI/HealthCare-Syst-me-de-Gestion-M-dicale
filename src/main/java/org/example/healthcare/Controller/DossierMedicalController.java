@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.DossierMedicalDto;
 import org.example.healthcare.Service.DossierMedicalService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +19,7 @@ public class DossierMedicalController {
     private final DossierMedicalService service;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public ResponseEntity<DossierMedicalDto>  findDossierMedicalById(@PathVariable Long id){
         return new ResponseEntity<>(service.getDossierMedical(id),HttpStatus.OK) ;
     }
@@ -29,14 +31,20 @@ public class DossierMedicalController {
     }
 
     @PatchMapping("/{id}/diagnostic")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public ResponseEntity<DossierMedicalDto>  saveDiagnostic(@PathVariable Long id,@Valid @RequestParam String diagnostic){
      return new  ResponseEntity<>(service.addDiagnostic(id,diagnostic),HttpStatus.CREATED) ;
     }
 
     @PatchMapping("/{id}/observation")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public ResponseEntity<DossierMedicalDto>  saveObservation(@PathVariable Long id,@RequestParam String observation){
         return new ResponseEntity<>(service.addObservation(id,observation),HttpStatus.CREATED) ;
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
+    public ResponseEntity<Page<DossierMedicalDto>>findAllDossierMedical(Pageable pageable){
+        return new ResponseEntity<>(service.getAllDossierMedicaux(pageable),HttpStatus.OK);
     }
 }

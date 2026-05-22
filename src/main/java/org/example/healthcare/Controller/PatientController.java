@@ -42,13 +42,13 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT') ")
     public ResponseEntity<PatientDto>  update(@PathVariable Long id,@Valid @RequestBody PatientDto dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto),HttpStatus.CREATED) ;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN') or #id == authentication.principal.id")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','PATIENT') ")
     public PatientDto findPatientById(@PathVariable Long id){
         return patientService.getPatientById(id);
     }
