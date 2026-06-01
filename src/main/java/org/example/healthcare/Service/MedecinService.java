@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.MedecinDto;
 import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
+import org.example.healthcare.Enum.Role;
 import org.example.healthcare.Mapper.MedecinMapper;
 import org.example.healthcare.Repository.MedecinRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +20,14 @@ public class MedecinService {
 
     private final MedecinRepository repository;
     private final MedecinMapper mapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     public MedecinDto saveMedecin(MedecinDto dto){
         Medecin medecin=mapper.toEntity(dto);
+
+            medecin.getUser().setPassword(passwordEncoder.encode(dto.getPassword()));
+            medecin.getUser().setRole(Role.MEDECIN);
+
         return mapper.toDto(repository.save(medecin));
     }
 

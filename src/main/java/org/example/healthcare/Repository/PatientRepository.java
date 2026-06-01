@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PatientRepository extends JpaRepository<Patient,Long> {
 
-    Page<Patient>findByUsernameContainingIgnoreCase(String username, Pageable pageable);
-}
+    Page<Patient> findByUser_UsernameContainingIgnoreCase(String username, Pageable pageable);}

@@ -48,14 +48,14 @@ public class RendezVousService {
                 .orElseThrow(()->new RuntimeException("Rendez-vous introuvable"));
 
         if(dto.getMedecinId()!=null){
-          Medecin medecin=medecinRepository.findById(dto.getPatientId())
+          Medecin medecin=medecinRepository.findById(dto.getMedecinId())
                   .orElseThrow(()->new RuntimeException("aucun medecin !"));
-           medecinRepository.save(medecin);
+            rendezVous.setMedecin(medecin);
         }
         if (dto.getPatientId()!=null){
       Patient patient = patientRepository.findById(dto.getPatientId())
               .orElseThrow(()->new RuntimeException("aucun patient"));
-          patientRepository.save(patient);
+           rendezVous.setPatient(patient);
         }
         rendezVousMapper.updateRendezVous(dto,rendezVous);
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));

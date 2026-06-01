@@ -10,10 +10,13 @@ import org.example.healthcare.Entity.User;
 import org.example.healthcare.Enum.Role;
 import org.example.healthcare.Mapper.UserMapper;
 import org.example.healthcare.Repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,28 +28,23 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    public UserDto register(UserDto dto){
+    public AuthResponse register(UserDto dto){
         if(userRepository.findByUsername(dto.getUsername()).isPresent()){
-            throw new RuntimeException("Username déjà exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,("Username déjà exists"));
         }
         if(userRepository.findByEmail(dto.getEmail()).isPresent()){
-            throw new RuntimeException("Email déjà exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,("Email déjà exists"));
         }
         User user =userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        if (dto.getRole() != null) {
-            user.setRole(dto.getRole());
-        } else {
-            user.setRole(Role.PATIENT);
-        }        User saved =userRepository.save(user);
+        user.setEmail(dto.getEmail());
+        user.setRole(dto.getRole());
+
+        User saved =userRepository.save(user);
 
         String token = jwtService.generateToken(saved);
 
-        UserDto response = userMapper.toDto(saved);
-        response.setRole(saved.getRole());
-        response.setToken(token);
-
-        return response;
+            return new AuthResponse(token);
     }
 
     public AuthResponse login(LoginRequest dto){

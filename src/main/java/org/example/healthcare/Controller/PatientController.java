@@ -30,7 +30,7 @@ public class PatientController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<PatientDto>> findAllPatients(Pageable pageable){
+    public ResponseEntity<Page<?>> findAllPatients(Pageable pageable){
         Page<PatientDto>patientDtos= patientService.getAllPatients(pageable);
         return ResponseEntity.ok().body(patientDtos);
     }

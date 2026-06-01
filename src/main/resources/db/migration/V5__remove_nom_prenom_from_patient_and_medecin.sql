@@ -1,0 +1,12 @@
+ALTER TABLE patient
+DROP COLUMN nom,
+DROP COLUMN prenom,
+DROP COLUMN email;
+
+ALTER TABLE medecin
+DROP COLUMN nom,
+DROP COLUMN email;
+
+
+
+

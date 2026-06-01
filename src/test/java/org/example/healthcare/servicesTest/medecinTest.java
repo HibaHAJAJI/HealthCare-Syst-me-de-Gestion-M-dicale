@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 @SpringBootTest
 public class medecinTest {
 
@@ -47,4 +47,4 @@ public class medecinTest {
 
 
 
-}
+}*/

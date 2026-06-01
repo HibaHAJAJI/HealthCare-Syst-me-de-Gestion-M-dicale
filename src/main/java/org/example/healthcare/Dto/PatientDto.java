@@ -1,8 +1,11 @@
 package org.example.healthcare.Dto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.healthcare.Enum.Role;
 
 import java.time.LocalDate;
 
@@ -10,12 +13,17 @@ import java.time.LocalDate;
 @Setter
 public class PatientDto {
 
-    private Long id;
-
-
-    @NotBlank(message = "Le champs email est invalide !")
-    @Email(message = "Le format email est incorrect !")
+    @NotBlank(message = "Le champs username est invalide")
+    private String username;
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank(message = "Le champs password est invalide")
+    private String password;
+
+    @NotNull
+    private String role;
 
     @NotBlank(message = "Le champs telephone est invalide")
     @Size(min = 4 , max = 16,message = "Le numero doit contenir entre 4 et 16 chiffres")
