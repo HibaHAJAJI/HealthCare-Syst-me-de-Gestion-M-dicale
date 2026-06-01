@@ -2,6 +2,7 @@ package org.example.healthcare.Controller;
 
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.RendezVousDto;
+import org.example.healthcare.Enum.Statut;
 import org.example.healthcare.Service.RendezVousService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ public class RendezVousController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     public RendezVousDto annulerRendezVousById(@PathVariable Long id){
         return rendezVousService.annulerRendezVous(id);
     }
@@ -50,5 +51,10 @@ public class RendezVousController {
     @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     public Page<RendezVousDto>getRendezVousMedecin(@PathVariable Long id,Pageable pageable){
         return rendezVousService.getRendezVousByMedecinById(id,pageable);
+    }
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
+    public Page<RendezVousDto> search(@RequestParam Statut statut, Pageable pageable){
+        return rendezVousService.chercherParStatut(statut,pageable);
     }
 }

@@ -48,8 +48,8 @@ public class PatientService {
         return mapper.toDto(patient);
    }
 
-   public Page<PatientDto>chercherPatients(String nom, Pageable pageable){
-        Page<Patient> patients =repository.findByNomContainsIgnoreCase(nom,pageable);
+   public Page<PatientDto>chercherPatients(String username, Pageable pageable){
+        Page<Patient> patients =repository.findByUsernameContainingIgnoreCase(username,pageable);
         return patients.map(patientMapper::toDto);
    }
 }

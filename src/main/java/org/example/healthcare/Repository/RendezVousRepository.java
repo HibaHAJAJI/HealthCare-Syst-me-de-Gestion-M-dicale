@@ -1,6 +1,7 @@
 package org.example.healthcare.Repository;
 
 import org.example.healthcare.Entity.RendezVous;
+import org.example.healthcare.Enum.Statut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,5 @@ public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
 
     Page<RendezVous> findByDateRendezVous(LocalDateTime dateRendezVous, Pageable pageable);
 
-    Page<RendezVous> findByStatut(String statut, Pageable pageable);
+    Page<RendezVous> findByStatut(Statut statut, Pageable pageable);
 }

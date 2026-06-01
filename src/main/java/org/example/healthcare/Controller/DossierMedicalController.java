@@ -19,7 +19,7 @@ public class DossierMedicalController {
     private final DossierMedicalService service;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')or #id == authentication.principal.id")
     public ResponseEntity<DossierMedicalDto>  findDossierMedicalById(@PathVariable Long id){
         return new ResponseEntity<>(service.getDossierMedical(id),HttpStatus.OK) ;
     }

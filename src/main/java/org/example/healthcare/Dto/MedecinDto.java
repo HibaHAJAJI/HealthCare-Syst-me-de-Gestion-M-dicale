@@ -14,9 +14,6 @@ public class MedecinDto {
 
     private Long id;
 
-    @NotBlank(message = "Le champs nom est invalide !")
-    private String nom;
-
     @NotBlank(message = "Le champs specialite est invalide !")
     private String specialite;
 

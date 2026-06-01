@@ -13,12 +13,9 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "patient")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nom;
-    private String prenom;
+@PrimaryKeyJoinColumn(name = "id")
+public class Patient extends User{
+
     private String telephone;
     private LocalDate dateNaissance;
 

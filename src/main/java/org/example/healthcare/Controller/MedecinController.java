@@ -32,7 +32,7 @@ public class MedecinController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')or #id == authentication.principal.id")
     public MedecinDto updateMedecin(@PathVariable Long id,@Valid @RequestBody MedecinDto dto){
         return medecinService.updateMedecinById(id,dto);
     }

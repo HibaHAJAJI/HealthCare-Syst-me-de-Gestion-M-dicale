@@ -75,4 +75,9 @@ public class RendezVousService {
     public Page<RendezVousDto> getRendezVousByMedecinById(Long medecintId,Pageable pageable){
         return rendezVousRepository.findByMedecinId(medecintId,pageable).map(rendezVousMapper::toDto);
     }
+    public Page<RendezVousDto> chercherParStatut(Statut statut, Pageable pageable){
+        return rendezVousRepository
+                .findByStatut(statut,pageable)
+                .map(rendezVousMapper::toDto);
+    }
 }

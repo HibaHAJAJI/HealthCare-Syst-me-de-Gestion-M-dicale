@@ -12,11 +12,6 @@ public class PatientDto {
 
     private Long id;
 
-    @NotBlank(message = "Le champs nom est invalide !")
-    private String nom;
-
-    @NotBlank(message = "Le champs prenom est invalide !")
-    private String prenom;
 
     @NotBlank(message = "Le champs email est invalide !")
     @Email(message = "Le format email est incorrect !")

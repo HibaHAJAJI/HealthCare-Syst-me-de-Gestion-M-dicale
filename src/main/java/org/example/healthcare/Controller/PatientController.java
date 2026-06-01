@@ -42,13 +42,13 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','PATIENT') ")
+    @PreAuthorize("hasRole('ADMIN')or #id == authentication.principal.id ")
     public ResponseEntity<PatientDto>  update(@PathVariable Long id,@Valid @RequestBody PatientDto dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto),HttpStatus.CREATED) ;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','PATIENT') ")
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')or #id == authentication.principal.id ")
     public PatientDto findPatientById(@PathVariable Long id){
         return patientService.getPatientById(id);
     }
@@ -56,8 +56,8 @@ public class PatientController {
 
     @GetMapping("/triParNom")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<PatientDto>> getRendezVousParNom(String nom,Pageable pageable){
-        Page<PatientDto> patientDtos=patientService.chercherPatients(nom,pageable);
+    public ResponseEntity<Page<PatientDto>> getRendezVousParNom(String username,Pageable pageable){
+        Page<PatientDto> patientDtos=patientService.chercherPatients(username,pageable);
         return ResponseEntity.ok().body(patientDtos);
     }
 }
