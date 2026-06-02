@@ -1,9 +1,7 @@
 package org.example.healthcare.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.*;
 
 import java.time.LocalDate;
