@@ -10,7 +10,6 @@ import org.example.healthcare.Enum.Role;
 @Data
 public class UserDto {
 
-    private Long id;
     @NotBlank(message = "Le champ username est invalide")
     private String username;
 
@@ -22,8 +21,6 @@ public class UserDto {
     private String password;
 
     private Role role;
-
-    private String token;
 
 
 }
