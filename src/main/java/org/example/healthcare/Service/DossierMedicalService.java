@@ -59,4 +59,9 @@ public class DossierMedicalService {
     public Page<DossierMedicalDto> getAllDossierMedicaux(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toDto);
     }
+
+    public Page<DossierMedicalDto>getDossierMedicalByDiagnostic(String diagnostic,Pageable pageable){
+        Page<DossierMedical>dossierMedicals= repository.findDossierMedicalByDiagnostic(diagnostic,pageable);
+        return dossierMedicals.map(mapper::toDto);
+    }
 }

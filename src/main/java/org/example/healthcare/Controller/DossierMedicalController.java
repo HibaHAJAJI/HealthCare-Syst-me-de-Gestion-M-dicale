@@ -47,4 +47,10 @@ public class DossierMedicalController {
     public ResponseEntity<Page<DossierMedicalDto>>findAllDossierMedical(Pageable pageable){
         return new ResponseEntity<>(service.getAllDossierMedicaux(pageable),HttpStatus.OK);
     }
+
+    @GetMapping("/rechercheParDiagnostic")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<DossierMedicalDto>>findDossierMidecalDiagnostic(@RequestParam String diagnostic,Pageable pageable){
+        return ResponseEntity.ok(service.getDossierMedicalByDiagnostic(diagnostic,pageable));
+    }
 }
