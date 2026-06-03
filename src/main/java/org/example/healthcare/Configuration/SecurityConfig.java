@@ -34,7 +34,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(ex -> ex
+              /*  .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(
                                 (request, response, authException) ->
                                         response.sendError(
@@ -50,7 +50,7 @@ public class SecurityConfig {
                                                 "Forbidden"
                                         )
                         )
-                )
+                )*/
                 .addFilterBefore(jwtAuthenthicationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

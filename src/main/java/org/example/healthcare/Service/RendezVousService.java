@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 
 @Service
 @AllArgsConstructor
@@ -80,4 +82,8 @@ public class RendezVousService {
                 .findByStatut(statut,pageable)
                 .map(rendezVousMapper::toDto);
     }
-}
+
+    public Page<RendezVousDto> getByDate(LocalDateTime dateRendezVous, Pageable pageable) {
+        Page<RendezVous> rendezVous = rendezVousRepository.findByDateRendezVous(dateRendezVous, pageable);
+        return rendezVous.map(rendezVousMapper::toDto);
+    }}
