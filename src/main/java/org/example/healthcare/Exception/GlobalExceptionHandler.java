@@ -1,5 +1,6 @@
 package org.example.healthcare.Exception;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,10 +29,10 @@ public class GlobalExceptionHandler {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreurs);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Map<String, String>> handleBadCredentials(BadCredentialsException ex) {
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Map<String, String>> handleJwtException(JwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "Invalid email or password"));
+                .body(Map.of("error","UNAUTHORIZED","message", "invalid jwt token"));
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
