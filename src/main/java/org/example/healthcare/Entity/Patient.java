@@ -13,18 +13,14 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "patient")
-public class Patient{
+@PrimaryKeyJoinColumn(name = "id")
+public class Patient extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String telephone;
     private LocalDate dateNaissance;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @ToString.Exclude

@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails{
 
     @Id
@@ -26,14 +27,11 @@ public class User implements UserDetails{
     private String email;
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    private Medecin medecin;
-
-    @OneToOne(mappedBy = "user")
-    private Patient patient;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

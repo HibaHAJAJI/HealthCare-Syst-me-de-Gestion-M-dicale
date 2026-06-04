@@ -22,10 +22,7 @@ public class PatientService {
 
     public PatientDto addPatient(PatientDto dto){
         Patient patient = mapper.toEntity(dto);
-        if (patient.getUser() != null) {
-            patient.getUser().setPassword(passwordEncoder.encode(dto.getPassword()));
-            patient.getUser().setRole(Role.PATIENT);
-        }
+        patient.setRole(Role.PATIENT);
         return mapper.toDto(repository.save(patient));
     }
     public Page<PatientDto> getAllPatients(Pageable pageable){
@@ -53,7 +50,7 @@ public class PatientService {
    }
 
    public Page<PatientDto>chercherPatients(String username, Pageable pageable){
-        Page<Patient> patients =repository.findByUser_UsernameContainingIgnoreCase(username,pageable);
+        Page<Patient> patients =repository.findByUsernameContainingIgnoreCase(username,pageable);
         return patients.map(mapper::toDto);
    }
 }

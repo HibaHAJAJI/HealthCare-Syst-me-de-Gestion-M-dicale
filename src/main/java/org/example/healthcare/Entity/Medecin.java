@@ -11,19 +11,13 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "medecin")
-public class Medecin  {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@PrimaryKeyJoinColumn(name = "id")
+public class Medecin extends User  {
 
     private String specialite;
     private String telephone;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @OneToMany(mappedBy = "medecin",cascade = CascadeType.ALL)
     @ToString.Exclude
