@@ -1,27 +1,23 @@
 package org.example.healthcare.servicesTest;
 
-import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Entity.Patient;
-import org.example.healthcare.Entity.RendezVous;
-import org.example.healthcare.Enum.Statut;
+
 import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Repository.RendezVousRepository;
 import org.example.healthcare.Service.RendezVousService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class RendezVousTest {
 
     @Autowired
@@ -45,7 +41,7 @@ public class RendezVousTest {
         medecinRepository.deleteAll();
         patientRepository.deleteAll();
     }
-/*
+
     @Test
     void should_Create_RendezVous() {
 
@@ -209,5 +205,5 @@ public class RendezVousTest {
                 rendezVousService.getRendezVousByMedecinById(medecinTest.getId()); // ✔ FIXED
 
         assertNotNull(result);
-    }*/
+    }
 }
