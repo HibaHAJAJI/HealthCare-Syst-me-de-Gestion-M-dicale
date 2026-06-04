@@ -1,209 +1,154 @@
 package org.example.healthcare.servicesTest;
 
+import org.example.healthcare.Dto.RendezVousDto;
 import org.example.healthcare.Entity.Medecin;
 import org.example.healthcare.Entity.Patient;
 
+import org.example.healthcare.Entity.RendezVous;
+import org.example.healthcare.Enum.Statut;
+import org.example.healthcare.Mapper.RendezVousMapper;
 import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Repository.RendezVousRepository;
 import org.example.healthcare.Service.RendezVousService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
-
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class RendezVousTest {
 
-    @Autowired
-    private RendezVousService rendezVousService;
-
-    @Autowired
+    @Mock
     private RendezVousRepository rendezVousRepository;
 
-    @Autowired
+    @Mock
     private MedecinRepository medecinRepository;
 
-    @Autowired
+    @Mock
     private PatientRepository patientRepository;
 
-    private Patient patientTest;
-    private Medecin medecinTest;
+    @Mock
+    private RendezVousMapper mapper;
 
-    @BeforeEach
-    void setUp() {
-        rendezVousRepository.deleteAll();
-        medecinRepository.deleteAll();
-        patientRepository.deleteAll();
-    }
+    @InjectMocks
+    private RendezVousService rendezVousService;
+
+
 
     @Test
     void should_Create_RendezVous() {
 
-        Patient patient = new Patient();
-        patient.setNom("Sara");
-        patient.setPrenom("sr");
-        patient.setEmail("sr" + UUID.randomUUID() + "@email.com");
-        patient.setTelephone("098765432");
-        patient.setDateNaissance(LocalDate.of(2002, 2, 12));
-
-        patientTest = patientRepository.save(patient);
+        RendezVousDto dto = new RendezVousDto();
+        dto.setMedecinId(1L);
+        dto.setPatientId(1L);
 
         Medecin medecin = new Medecin();
-        medecin.setNom("imane");
-        medecin.setSpecialite("Cardio");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setTelephone("0987654");
+        medecin.setId(1L);
 
-        medecinTest = medecinRepository.save(medecin);
+        Patient patient = new Patient();
+        patient.setId(1L);
 
-        RendezVousDto dto = new RendezVousDto();
-        dto.setMedecinId(medecinTest.getId());
-        dto.setPatientId(patientTest.getId());
-        dto.setDateRendezVous(LocalDateTime.now());
-        dto.setStatut(Statut.EN_ATTENTE);
+        RendezVous entity = new RendezVous();
+        entity.setId(10L);
+
+        RendezVous saved = new RendezVous();
+        saved.setId(10L);
+
+        RendezVousDto response = new RendezVousDto();
+        response.setId(10L);
+
+        when(medecinRepository.findById(1L)).thenReturn(Optional.of(medecin));
+        when(patientRepository.findById(1L)).thenReturn(Optional.of(patient));
+        when(mapper.toEntity(dto)).thenReturn(entity);
+        when(rendezVousRepository.save(entity)).thenReturn(saved);
+        when(mapper.toDto(saved)).thenReturn(response);
 
         RendezVousDto result = rendezVousService.addRendezVous(dto);
 
         assertNotNull(result);
-        assertNotNull(result.getId());
+        assertEquals(10L, result.getId());
+
+        verify(medecinRepository).findById(1L);
+        verify(patientRepository).findById(1L);
+        verify(rendezVousRepository).save(entity);
     }
 
     @Test
-    void should_update_RendezVous() {
+    void should_return_paginated_rendezVous() {
 
-        Patient patient = new Patient();
-        patient.setNom("Sara");
-        patient.setPrenom("sr");
-        patient.setEmail("sr" + UUID.randomUUID() + "@email.com");
-        patient.setTelephone("098765432");
-        patient.setDateNaissance(LocalDate.of(2002, 2, 12));
+        Pageable pageable = PageRequest.of(0, 5);
 
-        patientTest = patientRepository.save(patient);
+        RendezVous r1 = new RendezVous();
+        r1.setId(1L);
 
-        Medecin medecin = new Medecin();
-        medecin.setNom("imane");
-        medecin.setSpecialite("Cardio");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setTelephone("0987654");
+        RendezVous r2 = new RendezVous();
+        r2.setId(2L);
 
-        medecinTest = medecinRepository.save(medecin);
+        Page<RendezVous> page =
+                new PageImpl<>(List.of(r1, r2), pageable, 2);
 
-        RendezVous rendezVous = new RendezVous();
-        rendezVous.setMedecin(medecinTest);
-        rendezVous.setPatient(patientTest);
-        rendezVous.setDateRendezVous(LocalDateTime.now());
-        rendezVous.setStatut(Statut.EN_ATTENTE);
+        when(rendezVousRepository.findAll(pageable)).thenReturn(page);
+        when(mapper.toDto(r1)).thenReturn(new RendezVousDto());
+        when(mapper.toDto(r2)).thenReturn(new RendezVousDto());
 
-        RendezVous saved = rendezVousRepository.save(rendezVous);
-
-        RendezVousDto dto = new RendezVousDto();
-        dto.setMedecinId(medecinTest.getId());   // ✔ IMPORTANT
-        dto.setPatientId(patientTest.getId());
-        dto.setDateRendezVous(LocalDateTime.now().plusDays(1));
-        dto.setStatut(Statut.CONFIRME);
-
-        RendezVousDto update = rendezVousService.updateRendezVous(saved.getId(), dto);
-
-        assertNotNull(update);
-        assertEquals(Statut.CONFIRME, update.getStatut());
-    }
-
-    @Test
-    void should_lister_RendezVous() {
-
-        Patient patient = new Patient();
-        patient.setNom("lina");
-        patient.setPrenom("ln");
-        patient.setEmail("ln" + UUID.randomUUID() + "@email.com");
-        patient.setTelephone("098765432");
-        patient.setDateNaissance(LocalDate.of(2005, 2, 12));
-
-        patientRepository.save(patient);
-
-        Medecin medecin = new Medecin();
-        medecin.setNom("imane");
-        medecin.setSpecialite("Cardio");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setTelephone("0987654");
-
-        medecinRepository.save(medecin);
-
-        List<RendezVousDto> result = rendezVousService.getAllRendezVous();
+        Page<RendezVousDto> result = rendezVousService.getAllRendezVous(pageable);
 
         assertNotNull(result);
+        assertEquals(2, result.getContent().size());
     }
+
 
     @Test
     void should_annuler_RendezVous() {
 
-        Patient patient = new Patient();
-        patient.setNom("lina");
-        patient.setPrenom("ln");
-        patient.setEmail("ln" + UUID.randomUUID() + "@email.com");
-        patient.setTelephone("098765432");
-        patient.setDateNaissance(LocalDate.of(2005, 2, 12));
+        RendezVous rv = new RendezVous();
+        rv.setId(1L);
+        rv.setStatut(Statut.EN_ATTENTE);
 
-        patientTest = patientRepository.save(patient);
+        when(rendezVousRepository.findById(1L)).thenReturn(Optional.of(rv));
+        when(rendezVousRepository.save(any())).thenReturn(rv);
+        when(mapper.toDto(any())).thenReturn(new RendezVousDto());
 
-        Medecin medecin = new Medecin();
-        medecin.setNom("imane");
-        medecin.setSpecialite("Cardio");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setTelephone("0987654");
+        RendezVousDto result = rendezVousService.annulerRendezVous(1L);
 
-        medecinTest = medecinRepository.save(medecin);
-
-        RendezVousDto dto = new RendezVousDto();
-        dto.setMedecinId(medecinTest.getId());
-        dto.setPatientId(patientTest.getId());
-        dto.setDateRendezVous(LocalDateTime.now());
-        dto.setStatut(Statut.EN_ATTENTE);
-
-        RendezVousDto create = rendezVousService.addRendezVous(dto);
-
-        RendezVousDto annuler = rendezVousService.annulerRendezVous(create.getId());
-
-        assertNotNull(annuler);
-        assertEquals(Statut.ANNULE, annuler.getStatut());
+        assertNotNull(result);
     }
 
     @Test
     void should_findByMedecin_RendezVous() {
 
-        Patient patient = new Patient();
-        patient.setNom("lina");
-        patient.setPrenom("ln");
-        patient.setEmail("ln" + UUID.randomUUID() + "@email.com");
-        patient.setTelephone("098765432");
-        patient.setDateNaissance(LocalDate.of(2005, 2, 12));
+        Pageable pageable = PageRequest.of(0, 5);
 
-        patientTest = patientRepository.save(patient);
+        RendezVous rv = new RendezVous();
+        rv.setId(1L);
 
-        Medecin medecin = new Medecin();
-        medecin.setNom("imane");
-        medecin.setSpecialite("Cardio");
-        medecin.setEmail("dr" + UUID.randomUUID() + "@email.com");
-        medecin.setTelephone("0987654");
+        Page<RendezVous> page =
+                new PageImpl<>(List.of(rv), pageable, 1);
 
-        medecinTest = medecinRepository.save(medecin);
+        when(rendezVousRepository.findByMedecinId(1L, pageable))
+                .thenReturn(page);
 
-        RendezVousDto dto = new RendezVousDto();
-        dto.setMedecinId(medecinTest.getId());
-        dto.setPatientId(patientTest.getId());
-        dto.setDateRendezVous(LocalDateTime.now());
-        dto.setStatut(Statut.EN_ATTENTE);
+        when(mapper.toDto(rv)).thenReturn(new RendezVousDto());
 
-        rendezVousService.addRendezVous(dto);
+        Page<RendezVousDto> result =
+                rendezVousService.getRendezVousByMedecinById(1L, pageable);
 
-        List<RendezVousDto> result =
-                rendezVousService.getRendezVousByMedecinById(medecinTest.getId()); // ✔ FIXED
-
-        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
     }
 }

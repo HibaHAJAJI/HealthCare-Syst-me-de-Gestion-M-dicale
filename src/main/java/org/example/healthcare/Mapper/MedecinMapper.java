@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(componentModel= "spring")
 public interface MedecinMapper {
 
-
+    @Mapping(target = "id", ignore = true)
     Medecin toEntity(MedecinDto dto);
 
 

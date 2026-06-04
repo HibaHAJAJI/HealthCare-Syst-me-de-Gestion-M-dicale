@@ -23,6 +23,7 @@ public class PatientService {
     public PatientDto addPatient(PatientDto dto){
         Patient patient = mapper.toEntity(dto);
         patient.setRole(Role.PATIENT);
+        patient.setPassword(passwordEncoder.encode(dto.getPassword()));
         return mapper.toDto(repository.save(patient));
     }
     public Page<PatientDto> getAllPatients(Pageable pageable){

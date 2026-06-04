@@ -44,7 +44,7 @@ public class MedecinController {
 
     @GetMapping("/specialite")
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<MedecinDto> findMedecinBySpecialite(String specialite, Pageable pageable){
+    public Page<MedecinDto> findMedecinBySpecialite(@RequestParam String specialite, Pageable pageable){
         return medecinService.getMedecinBySpecialite(specialite, pageable);
     }
 

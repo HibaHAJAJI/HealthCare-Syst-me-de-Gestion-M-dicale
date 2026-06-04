@@ -25,6 +25,7 @@ public class MedecinService {
     public MedecinDto saveMedecin(MedecinDto dto){
         Medecin medecin=mapper.toEntity(dto);
         medecin.setRole(Role.MEDECIN);
+        medecin.setPassword(passwordEncoder.encode(dto.getPassword()));
         return mapper.toDto(repository.save(medecin));
     }
 

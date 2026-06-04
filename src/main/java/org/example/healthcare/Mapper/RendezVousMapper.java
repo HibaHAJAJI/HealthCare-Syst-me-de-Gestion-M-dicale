@@ -20,7 +20,6 @@ public interface RendezVousMapper {
     @Mapping(source = "patient.id",target="patientId")
     RendezVousDto toDto(RendezVous rendezVous);
 
-    List<RendezVousDto>toDtos(List<RendezVous>rendezVous);
 
     @Mapping(target = "id",ignore = true)
     void updateRendezVous(RendezVousDto dto,@MappingTarget RendezVous rendezVous);
