@@ -30,18 +30,18 @@ public class RendezVousService {
 
     public RendezVousDto addRendezVous(RendezVousDto dto){
 
-        Patient patient =patientRepository.findById(dto.getPatientId())
-                .orElseThrow(()->new  RuntimeException("patient id introuvable"));
+            Patient patient =patientRepository.findById(dto.getPatientId())
+                    .orElseThrow(()->new  RuntimeException("patient id introuvable"));
 
-        Medecin medecin=medecinRepository.findById(dto.getMedecinId())
-                .orElseThrow(()->new RuntimeException("Medecin introuvable !"));
+            Medecin medecin=medecinRepository.findById(dto.getMedecinId())
+                    .orElseThrow(()->new RuntimeException("Medecin introuvable !"));
 
-        RendezVous rendezVous=rendezVousMapper.toEntity(dto);
-         rendezVous.setPatient(patient);
-         rendezVous.setMedecin(medecin);
-         rendezVous.setStatut(Statut.EN_ATTENTE);
+            RendezVous rendezVous=rendezVousMapper.toEntity(dto);
+            rendezVous.setPatient(patient);
+            rendezVous.setMedecin(medecin);
+            rendezVous.setStatut(Statut.EN_ATTENTE);
+            return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
 
-       return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
 
     public Page<RendezVousDto> getAllRendezVous(Pageable pageable){
