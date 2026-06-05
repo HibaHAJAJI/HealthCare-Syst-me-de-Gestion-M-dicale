@@ -2,6 +2,8 @@ package org.example.healthcare.Mapper;
 
 
 import org.example.healthcare.Dto.RendezVousDto;
+import org.example.healthcare.Entity.Medecin;
+import org.example.healthcare.Entity.Patient;
 import org.example.healthcare.Entity.RendezVous;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,5 +25,6 @@ public interface RendezVousMapper {
 
     @Mapping(target = "id",ignore = true)
     void updateRendezVous(RendezVousDto dto,@MappingTarget RendezVous rendezVous);
+
 
 }

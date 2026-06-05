@@ -1,5 +1,6 @@
 package org.example.healthcare.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.healthcare.Dto.PatientDto;
@@ -26,12 +27,14 @@ public class PatientController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Créer un nouveau Patient")
     public ResponseEntity<PatientDto>  savePatient(@Valid @RequestBody PatientDto dto){
         return new ResponseEntity<>( patientService.addPatient(dto), HttpStatus.CREATED);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Lister tous les patients avec pagination")
     public ResponseEntity<Page<?>> findAllPatients(Pageable pageable){
         Page<PatientDto>patientDtos= patientService.getAllPatients(pageable);
         return ResponseEntity.ok().body(patientDtos);
@@ -39,26 +42,31 @@ public class PatientController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public void delete(@PathVariable Long id){
+    @Operation(summary = "Supprimer un patient par ID")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         patientService.deletePatient(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
+    @Operation(summary = "Modifier un patient existant")
     public ResponseEntity<PatientDto>  update(@PathVariable Long id,@Valid @RequestBody PatientDto dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto),HttpStatus.CREATED) ;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MEDECIN','PATIENT')")
-    public PatientDto findPatientById(@PathVariable Long id){
-        return patientService.getPatientById(id);
+    @Operation(summary = "Récupérer un patient par ID")
+    public ResponseEntity<PatientDto>  findPatientById(@PathVariable Long id){
+        return ResponseEntity.ok(patientService.getPatientById(id)) ;
     }
 
 
     @GetMapping("/triParNom")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<PatientDto>> getRendezVousParNom(@RequestParam(value = "username", required = false) String username,Pageable pageable){
+    @Operation(summary = "Rechercher des patients par nom (username) avec pagination")
+    public ResponseEntity<Page<PatientDto>> getRendezVousParNom(@RequestParam String username,Pageable pageable){
         Page<PatientDto> patientDtos=patientService.chercherPatients(username,pageable);
         return ResponseEntity.ok().body(patientDtos);
     }
