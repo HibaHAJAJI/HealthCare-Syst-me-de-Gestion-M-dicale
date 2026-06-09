@@ -7,21 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MedecinDto {
-
-
-    @NotBlank(message = "Le champs username est invalide")
-    private String username;
-
-    @NotBlank(message = "Le champs email est invalide !")
-    @Email(message = "Le format email est invalide !")
-    private String email;
-
-    @NotBlank(message = "Le champs password est invalide")
-    private String password;
-
-
-    private String role;
+public class MedecinDto extends UserDto {
 
     @NotBlank(message = "Le champs specialite est invalide !")
     private String specialite;

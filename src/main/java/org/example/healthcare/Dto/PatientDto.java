@@ -11,19 +11,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PatientDto {
+public class PatientDto extends UserDto{
 
-    @NotBlank(message = "Le champs username est invalide")
-    private String username;
-    @Email
-    @NotBlank
-    private String email;
-
-    @NotBlank(message = "Le champs password est invalide")
-    private String password;
-
-    @NotNull
-    private String role;
 
     @NotBlank(message = "Le champs telephone est invalide")
     @Size(min = 4 , max = 16,message = "Le numero doit contenir entre 4 et 16 chiffres")
