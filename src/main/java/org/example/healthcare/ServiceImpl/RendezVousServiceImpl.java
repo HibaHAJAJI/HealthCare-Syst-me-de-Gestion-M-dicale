@@ -11,6 +11,8 @@ import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Repository.RendezVousRepository;
 import org.example.healthcare.Service.RendezVousService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,9 @@ public class RendezVousServiceImpl  implements RendezVousService {
     private final MedecinRepository medecinRepository;
     private final PatientRepository patientRepository;
 
-
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+    "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
     public RendezVousDto addRendezVous(RendezVousDto dto){
 
         Patient patient =patientRepository.findById(dto.getPatientId())
@@ -43,14 +47,21 @@ public class RendezVousServiceImpl  implements RendezVousService {
 
     }
 
+    @Override
+    @Cacheable(value = "rendezvous-page",key = "#pageable")
     public Page<RendezVousDto> getAllRendezVous(Pageable pageable){
         return rendezVousRepository.findAll(pageable).map(rendezVousMapper::toDto);
     }
 
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
     public RendezVousDto updateRendezVous(Long id,RendezVousDto dto){
 
         RendezVous rendezVous = rendezVousRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Rendez-vous introuvable"));
+
+        rendezVousMapper.updateRendezVous(dto,rendezVous);
 
         if(dto.getMedecinId()!=null){
             Medecin medecin=medecinRepository.findById(dto.getMedecinId())
@@ -63,13 +74,19 @@ public class RendezVousServiceImpl  implements RendezVousService {
                     .orElseThrow(()->new RuntimeException("aucun patient"));
             rendezVous.setPatient(patient);
         }
+        if (dto.getDateRendezVous() != null) {
+            rendezVous.setDateRendezVous(dto.getDateRendezVous());
+        }
+        if (dto.getStatut() != null) {
+            rendezVous.setStatut(dto.getStatut());
+        }
 
-        rendezVous.setDateRendezVous(dto.getDateRendezVous());
-        rendezVous.setStatut(dto.getStatut());
-        rendezVousMapper.updateRendezVous(dto,rendezVous);
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
 
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
     public RendezVousDto annulerRendezVous(Long id){
         RendezVous rendezVous = rendezVousRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun rendez-vous !"));
@@ -77,19 +94,27 @@ public class RendezVousServiceImpl  implements RendezVousService {
         return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
     }
 
+    @Override
+    @Cacheable(value = "rendezvous-patient",key = "{#id ,#pageable}")
     public Page<RendezVousDto> getRendezVousByPatientById(Long id, Pageable pageable){
         return  rendezVousRepository.findByPatientId(id,pageable).map(rendezVousMapper::toDto);
     }
 
+    @Override
+    @Cacheable(value = "rendezvous-medecin",key = "{#medecintId ,#pageable}")
     public Page<RendezVousDto> getRendezVousByMedecinById(Long medecintId,Pageable pageable){
         return rendezVousRepository.findByMedecinId(medecintId,pageable).map(rendezVousMapper::toDto);
     }
+    @Override
+    @Cacheable(value ="rendezvous-statut",key = "{#statut ,#pageable}")
     public Page<RendezVousDto> chercherParStatut(Statut statut, Pageable pageable){
         return rendezVousRepository
                 .findByStatut(statut,pageable)
                 .map(rendezVousMapper::toDto);
     }
 
+    @Override
+    @Cacheable(value = "rendezvous-date",key = "{#dateRendezVous ,#pageable}")
     public Page<RendezVousDto> getByDate(LocalDateTime dateRendezVous, Pageable pageable) {
         Page<RendezVous> rendezVous = rendezVousRepository.findByDateRendezVous(dateRendezVous, pageable);
         return rendezVous.map(rendezVousMapper::toDto);

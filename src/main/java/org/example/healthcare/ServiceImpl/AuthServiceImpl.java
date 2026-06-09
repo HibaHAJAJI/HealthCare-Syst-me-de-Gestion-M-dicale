@@ -37,17 +37,15 @@ public class AuthServiceImpl implements AuthService {
         }
         User user =userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setEmail(dto.getEmail());
-        user.setRole(dto.getRole());
 
         User saved =userRepository.save(user);
-
         String token = jwtService.generateToken(saved);
 
         return new AuthResponse(token);
     }
 
     public AuthResponse login(LoginRequest dto){
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
@@ -55,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
         User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(()->new RuntimeException("User not found"));
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,"identifiants invalides"));
         String token = jwtService.generateToken(user);
         return new AuthResponse(token);
 

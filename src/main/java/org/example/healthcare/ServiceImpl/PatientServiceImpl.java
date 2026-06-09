@@ -1,5 +1,6 @@
 package org.example.healthcare.ServiceImpl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Dto.PatientDto;
 import org.example.healthcare.Entity.Patient;
@@ -7,6 +8,8 @@ import org.example.healthcare.Enum.Role;
 import org.example.healthcare.Mapper.PatientMapper;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Service.PatientService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +26,8 @@ public class PatientServiceImpl  implements PatientService {
 
 
     @Override
+    @Transactional
+    @CacheEvict(value ={"patients", "patients-page", "patients-search"}, allEntries = true)
     public PatientDto addPatient(PatientDto dto){
         Patient patient = mapper.toEntity(dto);
         patient.setRole(Role.PATIENT);
@@ -31,12 +36,14 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
+    @Cacheable(value = "patients-page",key = "#pageable.pageNumber + '_'+ #pageable.pageSize")
     public Page<PatientDto> getAllPatients(Pageable pageable){
         Page<Patient>patients=repository.findAll(pageable);
         return patients.map(mapper::toDto);
     }
 
     @Override
+    @CacheEvict(value ={"patients", "patients-page", "patients-search"}, allEntries = true)
     public void deletePatient(Long id){
         Patient patient = repository.findById(id)
                 .orElseThrow(()->new  RuntimeException ("Patient introuvable !"));
@@ -44,6 +51,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
+    @CacheEvict(value ={"patients", "patients-page", "patients-search"}, allEntries = true)
     public PatientDto updatePatient(Long id, PatientDto dto){
         Patient patient=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("Patient introuvable !"));
@@ -52,6 +60,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
+    @Cacheable(value = "patients",key = "#id")
     public PatientDto getPatientById(Long id){
         Patient patient=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("Patient introuvable !"));
@@ -59,6 +68,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
+    @Cacheable(value = "patients-search",key = "#username +'_'+  #pageable.pageNumber +'_' + #pageable.pageSize +'_'+ #pageable.sort" )
     public Page<PatientDto>chercherPatients(String username, Pageable pageable){
         Page<Patient> patients =repository.findByUsernameContainingIgnoreCase(username,pageable);
         return patients.map(mapper::toDto);
