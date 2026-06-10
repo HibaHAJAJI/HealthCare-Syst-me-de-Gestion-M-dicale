@@ -41,6 +41,15 @@ public class PdfController {
         );
     }
 
+    @GetMapping("/rapport")
+    public ResponseEntity<InputStreamResource> downloadRapport(
+            @RequestParam String titre) {
+
+        return buildPdfResponse(
+                () -> pdfGeneratorService.generateRapportPdf(titre),
+                "rapport.pdf");
+    }
+
     private ResponseEntity<InputStreamResource> buildPdfResponse(PdfGenerator generator, String filename) {
         ByteArrayInputStream bis = generator.generate();
 

@@ -109,4 +109,27 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
         }
         return new ByteArrayInputStream(out.toByteArray());
     }
+
+
+    @Override
+    public ByteArrayInputStream generateRapportPdf(String titre) {
+
+        Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        try {
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            document.add(new Paragraph(titre));
+            document.add(new Paragraph("Rapport généré par HealthCare+"));
+
+            document.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ByteArrayInputStream(out.toByteArray());
+    }
 }

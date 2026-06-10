@@ -12,4 +12,5 @@ public interface PdfGeneratorService {
 
     ByteArrayInputStream generateDossierMedicalPdf(DossierMedical dossier);
     ByteArrayInputStream generateRendezVousListPdf(List<RendezVous> rendezVous, String patientName);
+    ByteArrayInputStream generateRapportPdf(String titre);
 }
