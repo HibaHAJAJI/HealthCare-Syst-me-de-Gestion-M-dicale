@@ -1,4 +1,4 @@
-package org.example.healthcare.Repository;
+package org.example.healthcare.Auth;
 
 import org.example.healthcare.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
