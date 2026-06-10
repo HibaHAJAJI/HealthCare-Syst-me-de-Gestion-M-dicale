@@ -1,12 +1,9 @@
-package org.example.healthcare.Controller;
+package org.example.healthcare.Auth;
 
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.healthcare.Dto.AuthResponse;
-import org.example.healthcare.Dto.LoginRequest;
 import org.example.healthcare.Dto.UserDto;
-import org.example.healthcare.Service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

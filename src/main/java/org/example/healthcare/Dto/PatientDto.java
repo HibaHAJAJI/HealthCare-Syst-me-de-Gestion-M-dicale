@@ -7,11 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.healthcare.Enum.Role;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PatientDto extends UserDto{
+public class PatientDto extends UserDto implements Serializable {
 
 
     @NotBlank(message = "Le champs telephone est invalide")

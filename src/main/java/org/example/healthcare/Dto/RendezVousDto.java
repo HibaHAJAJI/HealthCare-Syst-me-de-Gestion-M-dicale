@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.healthcare.Enum.Statut;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class RendezVousDto {
+public class RendezVousDto implements Serializable {
 
     private Long id;
     private LocalDateTime dateRendezVous;

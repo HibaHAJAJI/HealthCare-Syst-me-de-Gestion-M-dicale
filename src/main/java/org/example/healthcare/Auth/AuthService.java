@@ -1,8 +1,6 @@
-package org.example.healthcare.Service;
+package org.example.healthcare.Auth;
 
 
-import org.example.healthcare.Dto.AuthResponse;
-import org.example.healthcare.Dto.LoginRequest;
 import org.example.healthcare.Dto.UserDto;
 
 
