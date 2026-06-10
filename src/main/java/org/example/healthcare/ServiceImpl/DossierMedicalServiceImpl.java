@@ -76,7 +76,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     @Override
     @Cacheable(value = "dossiermedicaux-diagnostic",key = "{#diagnostic, #pageable}")
     public Page<DossierMedicalDto>getDossierMedicalByDiagnostic(String diagnostic,Pageable pageable){
-        Page<DossierMedical>dossierMedicals= repository.findDossierMedicalByDiagnostic(diagnostic,pageable);
+        Page<DossierMedical>dossierMedicals= repository.findDossierMedicalByDiagnosticIsContainingIgnoreCase(diagnostic,pageable);
         return dossierMedicals.map(mapper::toDto);
     }
 }
