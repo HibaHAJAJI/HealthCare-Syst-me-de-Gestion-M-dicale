@@ -1,4 +1,4 @@
-package org.example.healthcare.ServiceImpl;
+package org.example.healthcare.Service.ServiceImpl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

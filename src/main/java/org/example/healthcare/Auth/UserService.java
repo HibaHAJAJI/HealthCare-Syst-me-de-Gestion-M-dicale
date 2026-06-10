@@ -1,10 +1,8 @@
-package org.example.healthcare.Service;
+package org.example.healthcare.Auth;
 
 
-import org.springframework.cache.annotation.Cacheable;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Entity.User;
-import org.example.healthcare.Repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

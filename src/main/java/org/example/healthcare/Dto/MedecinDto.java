@@ -5,9 +5,11 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class MedecinDto extends UserDto {
+public class MedecinDto extends UserDto implements Serializable {
 
     @NotBlank(message = "Le champs specialite est invalide !")
     private String specialite;

@@ -1,12 +1,10 @@
-package org.example.healthcare.Controller;
+package org.example.healthcare.Pdf;
 
 
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Entity.DossierMedical;
 import org.example.healthcare.Entity.RendezVous;
 import org.example.healthcare.Repository.DossierMedicalRepository;
-import org.example.healthcare.Service.DossierMedicalService;
-import org.example.healthcare.Service.PdfGeneratorService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/pdf")
 @RequiredArgsConstructor
 public class PdfController {
+
     private final DossierMedicalRepository dossierMedicalRepository;
     private final PdfGeneratorService pdfGeneratorService;
 

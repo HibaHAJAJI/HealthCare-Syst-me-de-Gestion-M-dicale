@@ -1,11 +1,10 @@
-package org.example.healthcare.ServiceImpl;
+package org.example.healthcare.Pdf;
 
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.*;
 import org.example.healthcare.Entity.DossierMedical;
 import org.example.healthcare.Entity.RendezVous;
-import org.example.healthcare.Service.PdfGeneratorService;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -14,9 +13,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Service
-public class PdfGeneratorServiceImpl implements PdfGeneratorService {
+public class PdfGeneratorService {
 
-    @Override
     public ByteArrayInputStream generateDossierMedicalPdf(DossierMedical dossier){
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -67,7 +65,6 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    @Override
     public ByteArrayInputStream generateRendezVousListPdf(List<RendezVous> rendezVous, String patientName){
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -111,7 +108,7 @@ public class PdfGeneratorServiceImpl implements PdfGeneratorService {
     }
 
 
-    @Override
+
     public ByteArrayInputStream generateRapportPdf(String titre) {
 
         Document document = new Document();
