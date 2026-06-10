@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Configuration.JwtService;
 import org.example.healthcare.Dto.UserDto;
 import org.example.healthcare.Entity.User;
-import org.example.healthcare.Mapper.UserMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,5 @@
-package org.example.healthcare.Mapper;
+package org.example.healthcare.Auth;
+
 
 import org.example.healthcare.Dto.UserDto;
 import org.example.healthcare.Entity.User;
