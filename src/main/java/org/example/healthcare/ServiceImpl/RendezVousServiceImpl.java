@@ -1,0 +1,122 @@
+package org.example.healthcare.ServiceImpl;
+
+import lombok.RequiredArgsConstructor;
+import org.example.healthcare.Dto.RendezVousDto;
+import org.example.healthcare.Entity.Medecin;
+import org.example.healthcare.Entity.Patient;
+import org.example.healthcare.Entity.RendezVous;
+import org.example.healthcare.Enum.Statut;
+import org.example.healthcare.Mapper.RendezVousMapper;
+import org.example.healthcare.Repository.MedecinRepository;
+import org.example.healthcare.Repository.PatientRepository;
+import org.example.healthcare.Repository.RendezVousRepository;
+import org.example.healthcare.Service.RendezVousService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+@Service
+@RequiredArgsConstructor
+public class RendezVousServiceImpl  implements RendezVousService {
+
+    private final RendezVousMapper rendezVousMapper;
+    private final RendezVousRepository rendezVousRepository;
+    private final MedecinRepository medecinRepository;
+    private final PatientRepository patientRepository;
+
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+    "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
+    public RendezVousDto addRendezVous(RendezVousDto dto){
+
+        Patient patient =patientRepository.findById(dto.getPatientId())
+                .orElseThrow(()->new  RuntimeException("patient id introuvable"));
+
+        Medecin medecin=medecinRepository.findById(dto.getMedecinId())
+                .orElseThrow(()->new RuntimeException("Medecin introuvable !"));
+
+        RendezVous rendezVous=rendezVousMapper.toEntity(dto);
+        rendezVous.setPatient(patient);
+        rendezVous.setMedecin(medecin);
+        rendezVous.setStatut(Statut.EN_ATTENTE);
+        return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
+
+    }
+
+    @Override
+    @Cacheable(value = "rendezvous-page",key = "#pageable")
+    public Page<RendezVousDto> getAllRendezVous(Pageable pageable){
+        return rendezVousRepository.findAll(pageable).map(rendezVousMapper::toDto);
+    }
+
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
+    public RendezVousDto updateRendezVous(Long id,RendezVousDto dto){
+
+        RendezVous rendezVous = rendezVousRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Rendez-vous introuvable"));
+
+        rendezVousMapper.updateRendezVous(dto,rendezVous);
+
+        if(dto.getMedecinId()!=null){
+            Medecin medecin=medecinRepository.findById(dto.getMedecinId())
+                    .orElseThrow(()->new RuntimeException("aucun medecin !"));
+            rendezVous.setMedecin(medecin);
+        }
+
+        if (dto.getPatientId()!=null){
+            Patient patient = patientRepository.findById(dto.getPatientId())
+                    .orElseThrow(()->new RuntimeException("aucun patient"));
+            rendezVous.setPatient(patient);
+        }
+        if (dto.getDateRendezVous() != null) {
+            rendezVous.setDateRendezVous(dto.getDateRendezVous());
+        }
+        if (dto.getStatut() != null) {
+            rendezVous.setStatut(dto.getStatut());
+        }
+
+        return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
+    }
+
+    @Override
+    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
+            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
+    public RendezVousDto annulerRendezVous(Long id){
+        RendezVous rendezVous = rendezVousRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("aucun rendez-vous !"));
+        rendezVous.setStatut(Statut.ANNULE);
+        return rendezVousMapper.toDto(rendezVousRepository.save(rendezVous));
+    }
+
+    @Override
+    @Cacheable(value = "rendezvous-patient",key = "{#id ,#pageable}")
+    public Page<RendezVousDto> getRendezVousByPatientById(Long id, Pageable pageable){
+        return  rendezVousRepository.findByPatientId(id,pageable).map(rendezVousMapper::toDto);
+    }
+
+    @Override
+    @Cacheable(value = "rendezvous-medecin",key = "{#medecintId ,#pageable}")
+    public Page<RendezVousDto> getRendezVousByMedecinById(Long medecintId,Pageable pageable){
+        return rendezVousRepository.findByMedecinId(medecintId,pageable).map(rendezVousMapper::toDto);
+    }
+    @Override
+    @Cacheable(value ="rendezvous-statut",key = "{#statut ,#pageable}")
+    public Page<RendezVousDto> chercherParStatut(Statut statut, Pageable pageable){
+        return rendezVousRepository
+                .findByStatut(statut,pageable)
+                .map(rendezVousMapper::toDto);
+    }
+
+    @Override
+    @Cacheable(value = "rendezvous-date",key = "{#dateRendezVous ,#pageable}")
+    public Page<RendezVousDto> getByDate(LocalDateTime dateRendezVous, Pageable pageable) {
+        Page<RendezVous> rendezVous = rendezVousRepository.findByDateRendezVous(dateRendezVous, pageable);
+        return rendezVous.map(rendezVousMapper::toDto);
+    }
+}
