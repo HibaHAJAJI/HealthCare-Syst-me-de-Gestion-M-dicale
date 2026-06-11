@@ -1,5 +1,5 @@
 ALTER TABLE rendez_vous
-    ADD COLUMN patient_id bigint not null ,
+    ADD COLUMN patient_id bigint not null,
     ADD COLUMN medecin_id bigint not null;
 
 alter table rendez_vous

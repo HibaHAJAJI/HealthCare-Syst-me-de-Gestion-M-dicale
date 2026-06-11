@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "patients")
+@Table(name = "patient")
 @PrimaryKeyJoinColumn(name = "id")
 public class Patient extends User{
 
