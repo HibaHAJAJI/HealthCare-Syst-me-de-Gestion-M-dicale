@@ -13,11 +13,12 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity
-@Table(name = "dossier_medical")
+@Table(name = "dossier_medicaux")
 public class DossierMedical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String diagnostic;
     private String observation;
     private LocalDate dateCreation;

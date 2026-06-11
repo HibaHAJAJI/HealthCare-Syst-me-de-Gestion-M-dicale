@@ -12,19 +12,16 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "patient")
+@Table(name = "patients")
 @PrimaryKeyJoinColumn(name = "id")
 public class Patient extends User{
-
 
     private String telephone;
     private LocalDate dateNaissance;
 
 
-
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @ToString.Exclude
-    @JsonManagedReference
     private List<RendezVous>rendezVousList;
 
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)

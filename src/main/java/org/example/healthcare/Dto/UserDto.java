@@ -10,14 +10,15 @@ import org.example.healthcare.Enum.Role;
 @Data
 public class UserDto {
 
-    @NotBlank(message = "Le champ username est invalide")
+    @NotBlank(message = "Le champ username est obligatoire !")
     private String username;
 
-    @NotBlank(message = "Le champ email est invalide")
-    @Email(message = "Le format email est incorrect")
+    @NotBlank(message = "Le champ email est obligatoire !")
+    @Email(message = "Le format de l'email est incorrect !")
     private String email;
 
-    @Size(min= 6, message = "Le password doit contenir minimum 6 caractere ")
+    @NotBlank(message = "Le champ password est obligatoire !")
+    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères !")
     private String password;
 
     private Role role;

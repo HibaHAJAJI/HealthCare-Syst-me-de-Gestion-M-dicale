@@ -11,11 +11,11 @@ import java.io.Serializable;
 @Setter
 public class MedecinDto extends UserDto implements Serializable {
 
-    @NotBlank(message = "Le champs specialite est invalide !")
+    @NotBlank(message = "Le champ spécialité est obligatoire !")
     private String specialite;
 
-    @NotBlank(message = "Le champs de telephone est invalide !" )
-    @Pattern(regexp = "^[0-9]+$",message = "Le champs doit contenir uniquement chiffres")
-    @Size( min= 4, max = 16, message = "Le numero doit contenir entre 4 et 16 chiffre")
+    @NotBlank(message = "Le champ téléphone est obligatoire !")
+    @Pattern(regexp = "^[0-9]+$",message = "Le champs doit contenir uniquement des chiffres")
+    @Size(min = 4, max = 16, message = "Le numéro doit contenir entre 4 et 16 chiffres !")
     private String telephone;
 }

@@ -56,13 +56,6 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: ""
         run: ./mvnw clean package
 
-      - name: Upload Test Reports if Failed
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: surefire-test-reports
-          path: '**/target/surefire-reports/**'
-
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:

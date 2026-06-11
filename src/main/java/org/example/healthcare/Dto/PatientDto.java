@@ -15,12 +15,12 @@ import java.time.LocalDate;
 public class PatientDto extends UserDto implements Serializable {
 
 
-    @NotBlank(message = "Le champs telephone est invalide")
-    @Size(min = 4 , max = 16,message = "Le numero doit contenir entre 4 et 16 chiffres")
+    @NotBlank(message = "Le champ téléphone est obligatoire !")
+    @Size(min = 4, max = 16, message = "Le numéro doit contenir entre 4 et 16 chiffres !")
     @Pattern(regexp = "^[0-9]+$" ,message = "Le champs entrer uniquement les chiffres")
     private String telephone;
 
-    @NotNull(message = "Date de naissance est obligatoire !")
+    @NotNull(message = "La date de naissance est obligatoire !")
     private LocalDate dateNaissance;
 
 }

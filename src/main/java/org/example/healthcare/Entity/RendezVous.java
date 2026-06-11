@@ -31,7 +31,6 @@ public class RendezVous {
 
     @ManyToOne
     @JoinColumn(name="patient_id")
-    @JsonIgnore
     private Patient patient;
 
     @ManyToOne

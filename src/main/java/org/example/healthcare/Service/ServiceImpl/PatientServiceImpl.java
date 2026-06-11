@@ -38,8 +38,7 @@ public class PatientServiceImpl  implements PatientService {
     @Override
     @Cacheable(value = "patients-page",key = "#pageable.pageNumber + '_'+ #pageable.pageSize")
     public Page<PatientDto> getAllPatients(Pageable pageable){
-        Page<Patient>patients=repository.findAll(pageable);
-        return patients.map(mapper::toDto);
+        return  repository.findAll(pageable).map(mapper::toDto);
     }
 
     @Override
@@ -70,7 +69,6 @@ public class PatientServiceImpl  implements PatientService {
     @Override
     @Cacheable(value = "patients-search",key = "#username +'_'+  #pageable.pageNumber +'_' + #pageable.pageSize +'_'+ #pageable.sort" )
     public Page<PatientDto>chercherPatients(String username, Pageable pageable){
-        Page<Patient> patients =repository.findByUsernameContainingIgnoreCase(username,pageable);
-        return patients.map(mapper::toDto);
+        return repository.findByUsernameContainingIgnoreCase(username,pageable).map(mapper::toDto);
     }
 }
