@@ -11,6 +11,8 @@ import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Repository.PatientRepository;
 import org.example.healthcare.Repository.RendezVousRepository;
 import org.example.healthcare.Service.RendezVousService;
+import org.example.healthcare.Service.ServiceImpl.RendezVousServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,8 +49,7 @@ public class RendezVousTest {
     private RendezVousMapper mapper;
 
     @InjectMocks
-    private RendezVousService rendezVousService;
-
+    private RendezVousServiceImpl rendezVousService;
 
 
     @Test

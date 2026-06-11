@@ -6,6 +6,8 @@ import org.example.healthcare.Enum.Role;
 import org.example.healthcare.Mapper.MedecinMapper;
 import org.example.healthcare.Repository.MedecinRepository;
 import org.example.healthcare.Service.MedecinService;
+import org.example.healthcare.Service.ServiceImpl.MedecinServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,7 +41,7 @@ public class medecinTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private MedecinService service;
+    private MedecinServiceImpl service;
 
 
 
