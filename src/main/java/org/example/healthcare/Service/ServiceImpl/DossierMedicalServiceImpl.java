@@ -27,7 +27,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     private final PatientRepository patientRepository;
 
     @Override
-    @CacheEvict(value ={"patients", "patients-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
     public DossierMedicalDto addDossierMedical(DossierMedicalDto dto){
         Patient patient=patientRepository.findById(dto.getPatientId())
                 .orElseThrow(()->new RuntimeException("aucun patient"));
@@ -40,7 +40,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @CacheEvict(value ={"patients", "patients-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
     public DossierMedicalDto addDiagnostic(Long id, String diagnostic){
         DossierMedical dossierMedical = repository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun dossier medical"));
@@ -50,7 +50,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @CacheEvict(value ={"patients", "patients-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
     public DossierMedicalDto addObservation(Long id, String observation){
         DossierMedical dossierMedical=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun dossier medical"));

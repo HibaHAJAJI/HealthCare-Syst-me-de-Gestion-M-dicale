@@ -33,11 +33,12 @@ public class PatientController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    //
+    //@PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Lister tous les patients avec pagination")
-    public ResponseEntity<Page<?>> findAllPatients(Pageable pageable){
-        Page<PatientDto>patientDtos= patientService.getAllPatients(pageable);
-        return ResponseEntity.ok().body(patientDtos);
+    public ResponseEntity<Page<PatientDto>> findAllPatients(){
+        System.out.println(patientService.getAllPatients(Pageable.unpaged())+"*****************");
+        return ResponseEntity.ok(patientService.getAllPatients(Pageable.unpaged()));
     }
 
     @DeleteMapping("/{id}")
@@ -68,6 +69,6 @@ public class PatientController {
     @Operation(summary = "Rechercher des patients par nom (username) avec pagination")
     public ResponseEntity<Page<PatientDto>> getRendezVousParNom(@RequestParam String username,Pageable pageable){
         Page<PatientDto> patientDtos=patientService.chercherPatients(username,pageable);
-        return ResponseEntity.ok().body(patientDtos);
+        return ResponseEntity.ok(patientDtos);
     }
 }

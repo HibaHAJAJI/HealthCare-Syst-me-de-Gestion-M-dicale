@@ -36,22 +36,20 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    @Cacheable(value = "patients-page",key = "#pageable.pageNumber + '_'+ #pageable.pageSize")
+    @Cacheable(value = "patients-page", key = "#pageable")
     public Page<PatientDto> getAllPatients(Pageable pageable){
         return  repository.findAll(pageable).map(mapper::toDto);
     }
 
     @Override
-    @CacheEvict(value ={"patients", "patients-page", "patients-search"}, allEntries = true)
-    public void deletePatient(Long id){
+    @CacheEvict(value = {"patients-id", "patients-page", "patients-search"}, allEntries = true)    public void deletePatient(Long id){
         Patient patient = repository.findById(id)
                 .orElseThrow(()->new  RuntimeException ("Patient introuvable !"));
         repository.delete(patient);
     }
 
     @Override
-    @CacheEvict(value ={"patients", "patients-page", "patients-search"}, allEntries = true)
-    public PatientDto updatePatient(Long id, PatientDto dto){
+    @CacheEvict(value = {"patients-id", "patients-page", "patients-search"}, allEntries = true)    public PatientDto updatePatient(Long id, PatientDto dto){
         Patient patient=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("Patient introuvable !"));
         mapper.updatePatientDto(dto,patient);
@@ -67,7 +65,7 @@ public class PatientServiceImpl  implements PatientService {
     }
 
     @Override
-    @Cacheable(value = "patients-search",key = "#username +'_'+  #pageable.pageNumber +'_' + #pageable.pageSize +'_'+ #pageable.sort" )
+    @Cacheable(value = "patients-search", key = "#username + '_' + #pageable.pageNumber + '_' + #pageable.pageSize + '_' + #pageable.sort.toString()")
     public Page<PatientDto>chercherPatients(String username, Pageable pageable){
         return repository.findByUsernameContainingIgnoreCase(username,pageable).map(mapper::toDto);
     }
