@@ -1,11 +1,9 @@
 package org.example.healthcare.Dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.healthcare.Enum.Role;
 
 import java.io.Serializable;
 import java.time.LocalDate;

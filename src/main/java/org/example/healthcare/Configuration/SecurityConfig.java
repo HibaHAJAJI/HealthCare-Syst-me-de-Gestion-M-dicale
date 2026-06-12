@@ -33,7 +33,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/login","/api/auth/register","/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
-                        .requestMatchers("/api/patients").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenthicationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

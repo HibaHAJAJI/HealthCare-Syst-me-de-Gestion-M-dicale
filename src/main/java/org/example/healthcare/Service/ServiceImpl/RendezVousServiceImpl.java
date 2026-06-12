@@ -29,8 +29,7 @@ public class RendezVousServiceImpl  implements RendezVousService {
     private final PatientRepository patientRepository;
 
     @Override
-    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
-    "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
+    @CacheEvict(value = "rendezvous",allEntries = true)
     public RendezVousDto addRendezVous(RendezVousDto dto){
 
         Patient patient =patientRepository.findById(dto.getPatientId())
@@ -54,8 +53,7 @@ public class RendezVousServiceImpl  implements RendezVousService {
     }
 
     @Override
-    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
-            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
+    @CacheEvict(value = "rendezvous",allEntries = true)
     public RendezVousDto updateRendezVous(Long id,RendezVousDto dto){
 
         RendezVous rendezVous = rendezVousRepository.findById(id)
@@ -85,8 +83,6 @@ public class RendezVousServiceImpl  implements RendezVousService {
     }
 
     @Override
-    @CacheEvict(value = {"rendezvous", "rendezvous-page", "rendezvous-patient",
-            "rendezvous-medecin","rendezvous-statut","rendezvous-date"},allEntries = true)
     public RendezVousDto annulerRendezVous(Long id){
         RendezVous rendezVous = rendezVousRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun rendez-vous !"));
@@ -95,18 +91,15 @@ public class RendezVousServiceImpl  implements RendezVousService {
     }
 
     @Override
-    @Cacheable(value = "rendezvous-patient",key = "{#id ,#pageable}")
     public Page<RendezVousDto> getRendezVousByPatientById(Long id, Pageable pageable){
         return  rendezVousRepository.findByPatientId(id,pageable).map(rendezVousMapper::toDto);
     }
 
     @Override
-    @Cacheable(value = "rendezvous-medecin",key = "{#medecintId ,#pageable}")
     public Page<RendezVousDto> getRendezVousByMedecinById(Long medecintId,Pageable pageable){
         return rendezVousRepository.findByMedecinId(medecintId,pageable).map(rendezVousMapper::toDto);
     }
     @Override
-    @Cacheable(value ="rendezvous-statut",key = "{#statut ,#pageable}")
     public Page<RendezVousDto> chercherParStatut(Statut statut, Pageable pageable){
         return rendezVousRepository
                 .findByStatut(statut,pageable)
@@ -114,7 +107,6 @@ public class RendezVousServiceImpl  implements RendezVousService {
     }
 
     @Override
-    @Cacheable(value = "rendezvous-date",key = "{#dateRendezVous ,#pageable}")
     public Page<RendezVousDto> getByDate(LocalDateTime dateRendezVous, Pageable pageable) {
         Page<RendezVous> rendezVous = rendezVousRepository.findByDateRendezVous(dateRendezVous, pageable);
         return rendezVous.map(rendezVousMapper::toDto);

@@ -42,7 +42,7 @@ public class MedecinServiceImpl  implements MedecinService {
     }
 
     @Override
-    @Cacheable(value = "medecins-page",key = "#pageable")
+    @Cacheable(value = "medecins-page")
     public Page<MedecinDto> getAllMedecins(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toDto);
     }

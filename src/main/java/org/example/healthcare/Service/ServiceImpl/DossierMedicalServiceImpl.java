@@ -27,7 +27,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     private final PatientRepository patientRepository;
 
     @Override
-    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ="dossiermedicaux", allEntries = true)
     public DossierMedicalDto addDossierMedical(DossierMedicalDto dto){
         Patient patient=patientRepository.findById(dto.getPatientId())
                 .orElseThrow(()->new RuntimeException("aucun patient"));
@@ -40,7 +40,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ="dossiermedicaux", allEntries = true)
     public DossierMedicalDto addDiagnostic(Long id, String diagnostic){
         DossierMedical dossierMedical = repository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun dossier medical"));
@@ -50,7 +50,7 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @CacheEvict(value ={"dossiermedicaux", "dossiermedicaux-page", "dossiermedicaux-diagnostic"}, allEntries = true)
+    @CacheEvict(value ="dossiermedicaux", allEntries = true)
     public DossierMedicalDto addObservation(Long id, String observation){
         DossierMedical dossierMedical=repository.findById(id)
                 .orElseThrow(()->new RuntimeException("aucun dossier medical"));
@@ -60,7 +60,6 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @Cacheable(value = "dossiermedicaux",key = "#id")
     public DossierMedicalDto getDossierMedical(Long id){
         DossierMedical dossierMedical=repository.findById(id)
                 .orElseThrow();
@@ -68,13 +67,12 @@ public class DossierMedicalServiceImpl  implements DossierMedicalService {
     }
 
     @Override
-    @Cacheable(value = "dossiermedicaux-page",key = "#pageable")
+    @Cacheable(value = "dossiermedicaux-page")
     public Page<DossierMedicalDto> getAllDossierMedicaux(Pageable pageable){
         return repository.findAll(pageable).map(mapper::toDto);
     }
 
     @Override
-    @Cacheable(value = "dossiermedicaux-diagnostic",key = "{#diagnostic, #pageable}")
     public Page<DossierMedicalDto>getDossierMedicalByDiagnostic(String diagnostic,Pageable pageable){
         Page<DossierMedical>dossierMedicals= repository.findDossierMedicalByDiagnosticIsContainingIgnoreCase(diagnostic,pageable);
         return dossierMedicals.map(mapper::toDto);
