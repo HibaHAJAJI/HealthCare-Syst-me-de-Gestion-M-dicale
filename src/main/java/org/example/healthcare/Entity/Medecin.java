@@ -2,6 +2,7 @@ package org.example.healthcare.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.healthcare.Users.User;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "medecin")
 @PrimaryKeyJoinColumn(name = "id")
-public class Medecin extends User  {
+public class Medecin extends User {
 
     private String specialite;
     private String telephone;

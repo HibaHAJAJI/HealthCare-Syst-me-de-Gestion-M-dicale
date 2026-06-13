@@ -3,8 +3,10 @@ package org.example.healthcare.Auth;
 
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Configuration.JwtService;
-import org.example.healthcare.Dto.UserDto;
-import org.example.healthcare.Entity.User;
+import org.example.healthcare.Users.User;
+import org.example.healthcare.Users.UserDto;
+import org.example.healthcare.Users.UserMapper;
+import org.example.healthcare.Users.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

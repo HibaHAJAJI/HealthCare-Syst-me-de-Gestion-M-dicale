@@ -4,6 +4,7 @@ package org.example.healthcare.Dto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.healthcare.Users.UserDto;
 
 import java.io.Serializable;
 

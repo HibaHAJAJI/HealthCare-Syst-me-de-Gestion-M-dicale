@@ -1,8 +1,7 @@
 package org.example.healthcare.Auth;
 
 
-import org.example.healthcare.Dto.UserDto;
-
+import org.example.healthcare.Users.UserDto;
 
 public interface AuthService {
 

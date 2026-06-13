@@ -1,7 +1,6 @@
 package org.example.healthcare.Configuration;
 
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Filtres.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;

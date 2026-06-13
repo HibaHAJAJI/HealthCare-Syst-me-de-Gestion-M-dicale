@@ -3,6 +3,7 @@ package org.example.healthcare.Entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.healthcare.Users.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "patient")
 @PrimaryKeyJoinColumn(name = "id")
-public class Patient extends User{
+public class Patient extends User {
 
     private String telephone;
     private LocalDate dateNaissance;
