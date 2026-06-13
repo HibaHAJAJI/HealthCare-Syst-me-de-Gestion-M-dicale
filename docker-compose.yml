@@ -67,6 +67,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: root1234
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
+      SPRING_CACHE_TYPE: redis
     networks:
       - backend
 
