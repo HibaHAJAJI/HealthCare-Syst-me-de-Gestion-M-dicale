@@ -13,7 +13,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - backend
+      - healthcare-net
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot1234"]
       interval: 10s
@@ -29,7 +29,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - backend
+      - healthcare-net
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -45,13 +45,13 @@ services:
     volumes:
       - redis_insight_data:/data
     networks:
-      - backend
+      - healthcare-net
     depends_on:
       redis:
         condition: service_healthy
 
   app:
-    build: .
+    build: ../healthcare-backend
     container_name: spring_boot_app
     restart: always
     depends_on:
@@ -69,7 +69,18 @@ services:
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_CACHE_TYPE: redis
     networks:
-      - backend
+      - healthcare-net
+
+  frontend:
+    build: ../healthcare-frontend
+    container_name: react_frontend_app
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - healthcare-net
 
 volumes:
   db_data:
@@ -77,5 +88,5 @@ volumes:
   redis_insight_data:
 
 networks:
-  backend:
+  healthcare-net:
     driver: bridge
