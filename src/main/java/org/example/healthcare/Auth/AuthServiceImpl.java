@@ -38,7 +38,9 @@ public class AuthServiceImpl implements AuthService {
         User saved =userRepository.save(user);
         String token = jwtService.generateToken(saved);
 
-        return new AuthResponse(token);
+        return new AuthResponse(token, saved.getId(),
+                saved.getUsername(),
+                saved.getRole().name());
     }
 
     public AuthResponse login(LoginRequest dto){
@@ -49,10 +51,20 @@ public class AuthServiceImpl implements AuthService {
                         dto.getPassword()
                 )
         );
-        User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,"identifiants invalides"));
-        String token = jwtService.generateToken(user);
-        return new AuthResponse(token);
 
+        User user = userRepository.findByUsername(dto.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Identifiants invalides"
+                ));
+
+        String token = jwtService.generateToken(user);
+
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getUsername(),
+                user.getRole().name()
+        );
     }
 }

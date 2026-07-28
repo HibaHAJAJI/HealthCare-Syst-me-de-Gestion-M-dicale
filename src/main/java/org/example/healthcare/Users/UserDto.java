@@ -6,8 +6,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.healthcare.Enum.Role;
 
+import java.io.Serializable;
+
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
+
+    private Long id;
 
     @NotBlank(message = "Le champ username est obligatoire !")
     private String username;

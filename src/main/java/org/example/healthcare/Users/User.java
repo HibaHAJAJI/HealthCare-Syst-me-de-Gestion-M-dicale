@@ -1,5 +1,6 @@
 package org.example.healthcare.Users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,8 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String email;
+
+    @JsonIgnore
     private String password;
 
 

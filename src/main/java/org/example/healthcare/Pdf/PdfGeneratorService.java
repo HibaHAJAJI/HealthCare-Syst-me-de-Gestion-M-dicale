@@ -3,8 +3,12 @@ package org.example.healthcare.Pdf;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.*;
+import lombok.RequiredArgsConstructor;
 import org.example.healthcare.Entity.DossierMedical;
 import org.example.healthcare.Entity.RendezVous;
+import org.example.healthcare.Repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -13,7 +17,10 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PdfGeneratorService {
+
+    private final RendezVousRepository rendezVousRepository;
 
     public ByteArrayInputStream generateDossierMedicalPdf(DossierMedical dossier){
         Document document = new Document(PageSize.A4);
@@ -65,7 +72,10 @@ public class PdfGeneratorService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    public ByteArrayInputStream generateRendezVousListPdf(List<RendezVous> rendezVous, String patientName){
+    public ByteArrayInputStream generateRendezVousListPdf(String patientName){
+
+        Page<RendezVous> rendezVous = rendezVousRepository.findByPatientUsernameContaining(patientName, Pageable.unpaged());
+
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 

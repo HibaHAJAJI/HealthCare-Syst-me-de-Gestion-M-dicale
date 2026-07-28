@@ -27,11 +27,13 @@ public class SecurityConfig {
    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         return http
+                .cors(cors -> {})
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth.requestMatchers("/api/auth/login","/api/auth/register","/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html").permitAll()
+                                "/swagger-ui.html")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenthicationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

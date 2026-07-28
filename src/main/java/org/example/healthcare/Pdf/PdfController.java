@@ -32,10 +32,9 @@ public class PdfController {
 
     @GetMapping("/rendezvous-list")
     public ResponseEntity<InputStreamResource> downloadRendezVousListPdf(@RequestParam String patientName) {
-        List<RendezVous> list = java.util.Collections.emptyList();
 
         return buildPdfResponse(
-                () -> pdfGeneratorService.generateRendezVousListPdf(list, patientName),
+                () -> pdfGeneratorService.generateRendezVousListPdf(patientName),
                 "rendezvous_list_" + patientName + ".pdf"
         );
     }

@@ -27,4 +27,6 @@ public interface RendezVousRepository extends JpaRepository<RendezVous,Long> {
 
     @EntityGraph(attributePaths = {"patient", "medecin"})
     Page<RendezVous> findByStatut(Statut statut, Pageable pageable);
+
+    Page<RendezVous> findByPatientUsernameContaining(String username, Pageable pageable);
 }
